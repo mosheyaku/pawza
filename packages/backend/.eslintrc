@@ -1,4 +1,4 @@
 {
   "root": true,
-  "extends": "@sadna/eslint-config/node"
+  "extends": "@anidate/eslint-config/node"
 }
