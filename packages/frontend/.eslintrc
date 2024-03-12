@@ -1,0 +1,5 @@
+{
+  "root": true,
+  "extends": "@anidate/eslint-config/react",
+  "ignorePatterns": ["dist", ".eslintrc.cjs"]
+}

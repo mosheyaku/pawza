@@ -59,6 +59,7 @@ module.exports = {
 
     // Importing
     'import/no-default-export': 'warn',
+    'import/extensions': ['warn', 'ignorePackages'],
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',
     'unused-imports/no-unused-imports': 'warn',
