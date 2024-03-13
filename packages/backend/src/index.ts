@@ -1,8 +1,8 @@
 import 'dotenv/config';
 
-import { setup, teardown } from './loaders/base.js';
 import { logger } from './logger.js';
 import { startServer } from './server.js';
+import { setup, teardown } from './setup.js';
 
 async function main() {
   try {

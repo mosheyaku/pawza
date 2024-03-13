@@ -48,6 +48,9 @@ importers:
       '@types/node':
         specifier: ^20.11.25
         version: 20.11.25
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.11.25)
@@ -2206,6 +2209,14 @@ packages:
       - babel-plugin-macros
       - supports-color
       - ts-node
+    dev: true
+
+  /cross-env@7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
     dev: true
 
   /cross-spawn@7.0.3:
