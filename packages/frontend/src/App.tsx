@@ -1,24 +1,24 @@
-import './App.css';
+import './normalize.css';
+import './App.scss';
 
 import { useState } from 'react';
 
 import reactLogo from './assets/react.svg';
-import viteLogo from './assets/vite.svg';
+import Navbar from './features/Navbar';
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
+      <Navbar />
+      <div style={{ marginTop: '2rem' }}>
         <a href="https://react.dev" target="_blank" rel="noreferrer">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Pawza</h1>
+      <h3>Your name is: Isabella</h3>
       <div className="card">
         <button onClick={() => setCount((p) => p + 1)}>count is {count}</button>
         <p>

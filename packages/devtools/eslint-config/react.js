@@ -17,5 +17,20 @@ module.exports = {
     'import/no-default-export': 'off',
 
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    'import/extensions': [
+      'warn',
+      'ignorePackages',
+      {
+        js: 'never',
+        ts: 'never',
+        jsx: 'never',
+        tsx: 'never',
+      },
+    ],
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
   },
 };
