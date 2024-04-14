@@ -28,11 +28,11 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" color="primary" sx={{ height: '4rem' }}>
+    <AppBar position="static" sx={{ height: '4rem', background: 'linear-gradient(to right, #DA9407, #ECB16B)' }}>
       {/* <AppBar position="static" style={{ backgroundColor: '#ECB16B',  }}> */}
       <Toolbar sx={{ height: '64px' }}>
         {/* Image and Text on the Left */}
-        <img src="/pawza.png" alt="logo" style={{ height: '100%' }} />
+        <img src="/pawza.png" alt="logo" style={{ height: '100%', padding: '0.5rem', boxSizing: 'border-box' }} />
         <Typography variant="h5" component="div" className="pacifico-regular" sx={{ flexGrow: 1, textAlign: 'start' }}>
           Pawza
         </Typography>
