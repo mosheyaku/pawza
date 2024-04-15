@@ -14,6 +14,15 @@
   text-align: center;
 }
 
+html,
+body {
+  min-height: 100dvh;
+  max-height: 100dvh;
+  height: 100dvh;
+
+  background-color: #f6f6f6;
+}
+
 .pacifico-regular {
   font-family: 'Pacifico', cursive !important;
   font-weight: 400 !important;

@@ -18,10 +18,11 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import PawzaLogo from '@src/assets/pawza.png';
+import { useState } from 'react';
 
 const Navbar = () => {
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
@@ -29,10 +30,9 @@ const Navbar = () => {
 
   return (
     <AppBar position="static" sx={{ height: '4rem', background: 'linear-gradient(to right, #DA9407, #ECB16B)' }}>
-      {/* <AppBar position="static" style={{ backgroundColor: '#ECB16B',  }}> */}
-      <Toolbar sx={{ height: '64px' }}>
+      <Toolbar sx={{ height: '4rem' }}>
         {/* Image and Text on the Left */}
-        <img src="/pawza.png" alt="logo" style={{ height: '100%', padding: '0.5rem', boxSizing: 'border-box' }} />
+        <img src={PawzaLogo} alt="logo" style={{ height: '100%', padding: '0.5rem', boxSizing: 'border-box' }} />
         <Typography variant="h5" component="div" className="pacifico-regular" sx={{ flexGrow: 1, textAlign: 'start' }}>
           Pawza
         </Typography>
