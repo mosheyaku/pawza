@@ -21,8 +21,8 @@ function Home() {
       flexDirection="column"
       justifyContent="end"
     >
-      {guy && <ImageCard img={GuyWithDog} />}
-      {!guy && <ImageCard img={WomanWithDog} />}
+      <ImageCard src={GuyWithDog} style={{ display: !guy ? 'none' : '' }} />
+      <ImageCard src={WomanWithDog} style={{ display: guy ? 'none' : '' }} />
 
       <Box display="flex" flexDirection="row" justifyContent="space-between" px={4}>
         <PawButton color="red" onClick={() => setGuy((p) => !p)} />

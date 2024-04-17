@@ -1,5 +1,7 @@
-function ImageCard({ img }: { img: string }) {
-  return <img src={img} style={{ borderRadius: '2rem', width: '100%' }} />;
+import { type ComponentPropsWithRef } from 'react';
+
+function ImageCard(props: ComponentPropsWithRef<'img'>) {
+  return <img {...props} style={{ borderRadius: '2rem', width: '100%', ...props.style }} />;
 }
 
 export default ImageCard;
