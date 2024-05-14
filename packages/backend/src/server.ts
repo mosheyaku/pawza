@@ -17,10 +17,10 @@ const onError = (error: any) => {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      logger.error(`port requires elevated privileges`, { error, bind });
+      logger.error(`port requires elevated privileges. error - ${error}. bind - ${bind}`);
       process.exit(1);
     case 'EADDRINUSE':
-      logger.error(`port is already in use`, { error, bind });
+      logger.error(`port is already in use.  error - ${error}. bind - ${bind}`);
       process.exit(1);
     default:
       throw error;

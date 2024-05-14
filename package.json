@@ -1,14 +1,14 @@
 {
-  "name": "anidate",
+  "name": "pawza",
   "version": "1.0.0",
   "description": "",
   "scripts": {},
   "keywords": [],
   "author": "",
   "license": "UNLICENSED",
-  "packageManager": "pnpm@8.15.4+sha256.cea6d0bdf2de3a0549582da3983c70c92ffc577ff4410cbf190817ddc35137c2",
+  "packageManager": "pnpm@9.1.0-0+sha256.c557b24d2298d9b5e3be7086ebf55a28253b008324d545f72645a6de89844102",
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
-    "@anidate/eslint-config": "workspace:^"
+    "@pawza/eslint-config": "workspace:^"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@anidate/eslint-config",
+  "name": "@pawza/eslint-config",
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",

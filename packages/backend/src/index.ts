@@ -6,11 +6,13 @@ import { setup, teardown } from './setup.js';
 
 async function main() {
   try {
+    logger.debug('Setting up server..');
     await setup();
+    logger.debug('Setup complete');
     await startServer();
   } catch (err) {
     logger.error('Critical error, cannot start app');
-    logger.error(err);
+    logger.error(err as string);
   }
 }
 
