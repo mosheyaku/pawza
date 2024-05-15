@@ -23,7 +23,7 @@ if (IS_DEV) {
   app.use(cors());
 }
 
-app.use(indexRouter);
+app.use('/api', indexRouter);
 
 app.use(errorHandler());
 

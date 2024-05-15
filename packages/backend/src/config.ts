@@ -10,10 +10,9 @@ if (port < 1 || port > 65535) throw new Error(`Invalid port specified - ${port}`
 export { port };
 
 // NODE_ENV
-const { NODE_ENV } = process.env;
-if (!NODE_ENV) throw new Error('Missing NODE_ENV environment variable');
+if (!process.env.NODE_ENV) throw new Error('Missing NODE_ENV environment variable');
 
-export { NODE_ENV };
+export const NODE_ENV = process.env.NODE_ENV!;
 export const IS_DEV = process.env.NODE_ENV === 'development';
 export const IS_PROD = process.env.NODE_ENV === 'production';
 export const IS_TEST = process.env.NODE_ENV === 'development';
@@ -27,3 +26,8 @@ if (!MONGO_PASSWORD) throw new Error('Missing MONGO_PASSWORD environment variabl
 if (!MONGO_DB) throw new Error('Missing MONGO_DB environment variable');
 
 export { MONGO_DB, MONGO_HOST, MONGO_PASSWORD, MONGO_USERNAME };
+
+// JWT_SECRET
+if (!process.env.JWT_SECRET) throw new Error('Missing JWT_SECRET environment variable');
+
+export const JWT_SECRET = process.env.JWT_SECRET!;
