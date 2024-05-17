@@ -1,5 +1,5 @@
 {
   "root": true,
   "extends": "@pawza/eslint-config/react",
-  "ignorePatterns": ["dist", ".eslintrc.cjs"]
+  "ignorePatterns": ["dist", ".eslintrc.cjs", "*.gen.ts"]
 }

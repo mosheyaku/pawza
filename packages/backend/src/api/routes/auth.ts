@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { body, query } from 'express-validator';
 
-import { generateJwtForUser, signIn } from '../../bll/auth.js';
+import { generateJwtForUser, login } from '../../bll/auth.js';
 import { createNewUser, userExists } from '../../bll/user.js';
 import { AppBadRequestError } from '../../errors/app-bad-request.js';
 import { Gender, UserPurpose } from '../../models/user.js';
+import { toUserDto } from '../dtos/user.js';
 import { requestBodyType, requestQueryType } from '../middlewares/request-types.js';
 import { validateRequest } from '../middlewares/validate-request.js';
 
@@ -69,7 +70,7 @@ authRouter.post(
 );
 
 authRouter.post(
-  '/sign-in',
+  '/login',
   body('email').isString().trim().notEmpty(),
   body('password').isString().notEmpty(),
 
@@ -78,11 +79,10 @@ authRouter.post(
   async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await signIn(email, password);
+    const user = await login(email, password);
+    const { token, refreshToken } = await generateJwtForUser(user);
 
-    const jwt = generateJwtForUser(user);
-
-    return res.json({ jwt });
+    return res.json({ user: toUserDto(user), token, refreshToken });
   },
 );
 
