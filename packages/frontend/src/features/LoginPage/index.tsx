@@ -57,53 +57,52 @@ export default function Login() {
     return <Navigate to="/home" />;
   }
 
-  // Bad, don't do this :)
-  const LoginForm = () => (
-    <Box display="flex" flexDirection="column" alignItems="center">
-      <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-        <LockOutlinedIcon />
-      </Avatar>
-      <Typography component="h1" variant="h5">
-        Sign in
-      </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          label="Email"
-          autoComplete="email"
-          autoFocus
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          sx={{ mt: 0 }}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, bgcolor: 'secondary.main' }}>
-          Sign In
-        </Button>
-
-        {/* TODO: Change link to /signup */}
-        <Link to="/home">{"Don't have an account? Sign Up"}</Link>
-      </Box>
-    </Box>
-  );
-
   const showLoader = isPending || (isSuccess && !user);
 
   // TODO: If error, handle it (show message or something)
   return (
     <Container maxWidth="xs" sx={{ py: '12lvh' }}>
-      {showLoader ? <CircularProgress sx={{ py: '12lvh' }} /> : <LoginForm />}
+      {showLoader ? (
+        <CircularProgress sx={{ py: '12lvh' }} />
+      ) : (
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Log in
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Email"
+              autoComplete="email"
+              autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              sx={{ mt: 0 }}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, bgcolor: 'secondary.main' }}>
+              Log in
+            </Button>
+
+            {/* TODO: Change link to /signup */}
+            <Link to="/home">{"Don't have an account? Sign Up"}</Link>
+          </Box>
+        </Box>
+      )}
       <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
   );
