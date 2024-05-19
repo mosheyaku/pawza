@@ -29,9 +29,8 @@ apiClient.interceptors.request.use(
 );
 
 // For response interceptor (Refresh token on 401) we use a library
-const refreshAuthLogic = (failedRequest: any) => {
-  console.log({ token, refreshToken });
-  return axios
+const refreshAuthLogic = (failedRequest: any) =>
+  axios
     .post(`${import.meta.env.VITE_API_URL}/api/auth/token/refresh`, { refreshToken })
     .then((tokenRefreshResponse) => {
       const { token: newToken, refreshToken: newRefreshToken } = tokenRefreshResponse.data;
@@ -40,6 +39,5 @@ const refreshAuthLogic = (failedRequest: any) => {
       failedRequest.response.config.headers.Authorization = `Bearer ${token}`;
       return Promise.resolve();
     });
-};
 
 createAuthRefreshInterceptor(apiClient, refreshAuthLogic);
