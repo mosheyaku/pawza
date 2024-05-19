@@ -10,6 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Link, Navigate } from '@tanstack/react-router';
 import { type FormEvent, useState } from 'react';
 
+import { setApiClientTokens } from '../../api/base';
 import { login as loginApiCall } from '../../api/login';
 import { useAuth } from '../Auth/useAuth';
 
@@ -22,7 +23,7 @@ function Copyright(props: any) {
 }
 
 export default function Login() {
-  const { setAuth, user } = useAuth();
+  const { setUser, user } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +45,8 @@ export default function Login() {
       if (res.status === 200) {
         const { user: newUser, token, refreshToken } = res.data;
 
-        setAuth({ user: newUser, token, refreshToken });
+        setUser(newUser);
+        setApiClientTokens(token, refreshToken);
       }
     } catch (e) {
       // Empty catch, it's ok for now

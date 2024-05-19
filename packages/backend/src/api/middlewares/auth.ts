@@ -1,10 +1,10 @@
 import { type NextFunction, type Request, type Response } from 'express';
-import jwt from 'jsonwebtoken';
 
-import { JWT_SECRET } from '../../config.js';
+import { verifyToken } from '../../bll/auth.js';
 import { AppNotAuthorizedError } from '../../errors/app-not-authorized.js';
 import { AppError } from '../../errors/base.js';
 import { logger } from '../../logger.js';
+import { type AuthPayload } from '../dtos/auth.js';
 
 const getJwtFromHeader = (req: Request<Record<string, string>, unknown, unknown, unknown>): string | null => {
   if (
@@ -17,15 +17,6 @@ const getJwtFromHeader = (req: Request<Record<string, string>, unknown, unknown,
   return null;
 };
 
-// Need async verify to make life easy
-const verifyToken = async (token: string, secret: string): Promise<any> =>
-  await new Promise((resolve, reject) => {
-    jwt.verify(token, secret, (err, decoded) => {
-      if (err) return reject(err);
-      resolve(decoded);
-    });
-  });
-
 export const auth =
   () => async (req: Request<Record<string, string>, unknown, unknown, unknown>, res: Response, next: NextFunction) => {
     const token = getJwtFromHeader(req);
@@ -34,15 +25,17 @@ export const auth =
     }
 
     try {
-      const decoded = await verifyToken(token, JWT_SECRET);
+      const decoded = (await verifyToken(token)) as AuthPayload;
 
-      if (!decoded || typeof decoded === 'string' || !decoded.id || typeof decoded.id !== 'string') {
+      if (!decoded || typeof decoded === 'string' || !decoded.userId || typeof decoded.userId !== 'string') {
         logger.warn('Unexpected JWT verification error', { token, decoded });
         throw new AppNotAuthorizedError();
       }
 
       req.user = {
-        id: decoded.id,
+        id: decoded.userId,
+        email: decoded.email,
+        firstName: decoded.firstName,
       };
 
       next();
@@ -61,7 +54,7 @@ declare global {
       user: User;
     }
 
-    interface User {
+    interface User extends Omit<AuthPayload, 'userId'> {
       id: string;
     }
   }

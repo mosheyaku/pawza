@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 
 import { type AuthPayload, type RefreshPayload } from '../api/dtos/auth.js';
 import { JWT_SECRET } from '../config.js';
@@ -43,3 +44,25 @@ export const generateJwtForUser = async (user: UserDoc) => {
 };
 
 export const hashPassword = async (password: string) => await bcrypt.hash(password, 10);
+
+export const getUserFromRefreshToken = async (refreshToken: string) => {
+  const payload = (await verifyToken(refreshToken)) as RefreshPayload;
+
+  if (payload.type !== 'refresh') {
+    throw new Error('Invalid refresh token');
+  }
+
+  return await UserModel.findOne({
+    _id: new mongoose.Types.ObjectId(payload.userId),
+    refreshToken,
+  });
+};
+
+// async verifyToken to make life easy
+export const verifyToken = async (token: string): Promise<any> =>
+  await new Promise((resolve, reject) => {
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) return reject(err);
+      resolve(decoded);
+    });
+  });

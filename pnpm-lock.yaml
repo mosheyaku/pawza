@@ -153,6 +153,9 @@ importers:
       axios:
         specifier: ^1.6.8
         version: 1.6.8
+      axios-auth-refresh:
+        specifier: ^3.3.6
+        version: 3.3.6(axios@1.6.8)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1508,6 +1511,11 @@ packages:
   axe-core@4.7.0:
     resolution: {integrity: sha512-M0JtH+hlOL5pLQwHOLNYZaXuhqmvS8oExsqB1SBYgA4Dk7u/xx+YdGHXaK5pyUfed5mYXdlYiphWq3G8cRi5JQ==}
     engines: {node: '>=4'}
+
+  axios-auth-refresh@3.3.6:
+    resolution: {integrity: sha512-2CeBUce/SxIfFxow5/n8vApJ97yYF6qoV4gh1UrswT7aEOnlOdBLxxyhOI4IaxGs6BY0l8YujU2jlc4aCmK17Q==}
+    peerDependencies:
+      axios: '>= 0.18 < 0.19.0 || >= 0.19.1'
 
   axios@1.6.8:
     resolution: {integrity: sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==}
@@ -5340,6 +5348,10 @@ snapshots:
       possible-typed-array-names: 1.0.0
 
   axe-core@4.7.0: {}
+
+  axios-auth-refresh@3.3.6(axios@1.6.8):
+    dependencies:
+      axios: 1.6.8
 
   axios@1.6.8:
     dependencies:

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
 
 import { AuthContext, type UserAuthData } from './useAuth';
 
@@ -9,25 +8,13 @@ export interface LoginBody {
 }
 
 const AuthProvider = ({ children }: React.PropsWithChildren) => {
-  const [user, setUser] = useState<UserAuthData>();
-  const [token, setToken] = useLocalStorage('token', '');
-  const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', '');
+  const [user, setUser] = useState<UserAuthData | null>(null);
 
-  const setAuth = (params: { user: UserAuthData; token: string; refreshToken: string }) => {
-    setUser(params.user);
-    setToken(params.token);
-    setRefreshToken(params.refreshToken);
+  const setUserExternal = (newUser: UserAuthData | null) => {
+    setUser(newUser);
   };
 
-  const resetAuth = () => {
-    setUser(undefined);
-    setToken('');
-    setRefreshToken('');
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, setAuth, resetAuth, token, refreshToken }}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, setUser: setUserExternal }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
