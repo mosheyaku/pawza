@@ -2,10 +2,16 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import PawzaLogo from '@src/assets/pawza.png';
 
+import { resetApiClientTokens } from '../../api/base';
 import { useAuth } from '../Auth/useAuth';
 
 const Navbar = () => {
-  const { resetAuth, user } = useAuth();
+  const { setUser, user } = useAuth();
+
+  const logout = () => {
+    setUser(null);
+    resetApiClientTokens();
+  };
 
   return (
     <AppBar position="static" sx={{ height: '4rem', background: 'linear-gradient(to right, #DA9407, #ECB16B)' }}>
@@ -24,7 +30,7 @@ const Navbar = () => {
         </div>
         {/* Logout Icon on the Right */}
         {user && (
-          <IconButton color="inherit" onClick={resetAuth}>
+          <IconButton color="inherit" onClick={logout}>
             <LogoutIcon />
           </IconButton>
         )}

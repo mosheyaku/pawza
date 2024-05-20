@@ -1,5 +1,4 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { CircularProgress } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -11,6 +10,7 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { type FormEvent, useState } from 'react';
 
 import { signUp as signUpApiCall } from '../../api/sign-up';
+import FullScreenLoader from '../Loader/FullScreenLoader';
 
 function Copyright(props: any) {
   return (
@@ -51,7 +51,7 @@ export default function SignUpPage() {
   return (
     <Container maxWidth="xs" sx={{ py: '12lvh' }}>
       {isPending ? (
-        <CircularProgress sx={{ py: '12lvh' }} />
+        <FullScreenLoader />
       ) : (
         <Box display="flex" flexDirection="column" alignItems="center">
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>

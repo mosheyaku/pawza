@@ -102,33 +102,30 @@ authRouter.post(
   },
 );
 
-authRouter.post(
-  '/token/refresh',
-  body('refreshToken').isString().trim().notEmpty(),
+authRouter.post('/token/refresh', validateRequest(), requestBodyType<{ refreshToken?: string }>(), async (req, res) => {
+  const { refreshToken } = req.body;
 
-  validateRequest(),
-  requestBodyType<{ refreshToken: string }>(),
-  async (req, res) => {
-    const { refreshToken } = req.body;
+  if (!refreshToken) {
+    throw new AppNotAuthorizedError();
+  }
 
-    try {
-      const user = await getUserFromRefreshToken(refreshToken);
-      if (!user) {
-        throw new AppNotAuthorizedError();
-      }
-
-      const { token, refreshToken: newRefreshToken } = await generateJwtForUser(user);
-      return res.json({ user: toUserDto(user), token, refreshToken: newRefreshToken });
-    } catch (e) {
-      // Any unhandled error above is counted as failure to refresh the token and is thus a Not Authorized error
-      if (e instanceof AppError) {
-        throw e;
-      }
-
+  try {
+    const user = await getUserFromRefreshToken(refreshToken);
+    if (!user) {
       throw new AppNotAuthorizedError();
     }
-  },
-);
+
+    const { token, refreshToken: newRefreshToken } = await generateJwtForUser(user);
+    return res.json({ user: toUserDto(user), token, refreshToken: newRefreshToken });
+  } catch (e) {
+    // Any unhandled error above is counted as failure to refresh the token and is thus a Not Authorized error
+    if (e instanceof AppError) {
+      throw e;
+    }
+
+    throw new AppNotAuthorizedError();
+  }
+});
 
 authRouter.get('/me', auth(), async (req, res) => {
   const user = await UserModel.findById(req.user.id).orFail();

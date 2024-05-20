@@ -9,12 +9,16 @@ export interface LoginBody {
 
 const AuthProvider = ({ children }: React.PropsWithChildren) => {
   const [user, setUser] = useState<UserAuthData | null>(null);
+  const [isInitiating, setIsInitiating] = useState(true);
 
   const setUserExternal = (newUser: UserAuthData | null) => {
     setUser(newUser);
+    setIsInitiating(false);
   };
 
-  return <AuthContext.Provider value={{ user, setUser: setUserExternal }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ isInitiating, user, setUser: setUserExternal }}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

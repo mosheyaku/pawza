@@ -5,7 +5,8 @@ export interface UserAuthData {
 }
 
 interface AuthContextData {
-  user: UserAuthData | null;
+  isInitiating: boolean;
+  user: UserAuthData | null | undefined;
   setUser: (user: UserAuthData | null) => void;
 }
 

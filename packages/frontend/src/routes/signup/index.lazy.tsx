@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
 
+import FullScreenLoader from '../../features/Loader/FullScreenLoader';
 import SignUpPage from '../../features/SignUpPage';
 
 function Index() {
@@ -8,4 +9,5 @@ function Index() {
 
 export const Route = createLazyFileRoute('/signup/')({
   component: Index,
+  pendingComponent: FullScreenLoader,
 });

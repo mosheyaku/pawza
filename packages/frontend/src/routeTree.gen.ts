@@ -13,21 +13,15 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as HomeIndexImport } from './routes/home/index'
 
 // Create Virtual Routes
 
-const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 const SignupIndexLazyImport = createFileRoute('/signup/')()
 const LoginIndexLazyImport = createFileRoute('/login/')()
-const HomeIndexLazyImport = createFileRoute('/home/')()
 
 // Create/Update Routes
-
-const AboutLazyRoute = AboutLazyImport.update({
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -44,10 +38,10 @@ const LoginIndexLazyRoute = LoginIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/login/index.lazy').then((d) => d.Route))
 
-const HomeIndexLazyRoute = HomeIndexLazyImport.update({
+const HomeIndexRoute = HomeIndexImport.update({
   path: '/home/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/home/index.lazy').then((d) => d.Route))
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -60,18 +54,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/home/': {
       id: '/home/'
       path: '/home'
       fullPath: '/home'
-      preLoaderRoute: typeof HomeIndexLazyImport
+      preLoaderRoute: typeof HomeIndexImport
       parentRoute: typeof rootRoute
     }
     '/login/': {
@@ -95,8 +82,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
-  AboutLazyRoute,
-  HomeIndexLazyRoute,
+  HomeIndexRoute,
   LoginIndexLazyRoute,
   SignupIndexLazyRoute,
 })
