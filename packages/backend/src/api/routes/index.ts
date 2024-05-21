@@ -9,6 +9,6 @@ const indexRouter = Router();
 
 indexRouter.use('/auth', authRouter);
 indexRouter.use('/users', auth(), usersRouter);
-indexRouter.use('/matches', auth(), potentialMatcherRouter);
+indexRouter.use('/potential-matches', auth(), potentialMatcherRouter);
 
 export { indexRouter };
