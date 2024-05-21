@@ -8,10 +8,11 @@ export const createNewUser = async (params: {
   password: string;
   birthDate: Date;
   gender: Gender;
+  genderPreference: Gender[];
   purpose: UserPurpose;
   location: [number, number];
 }): Promise<UserDoc> => {
-  const { email, firstName, lastName, password, birthDate, gender, purpose, location } = params;
+  const { email, firstName, lastName, password, birthDate, gender, genderPreference, purpose, location } = params;
 
   const hashedPassword = await hashPassword(password);
 
@@ -22,6 +23,7 @@ export const createNewUser = async (params: {
     password: hashedPassword,
     birthDate,
     gender,
+    genderPreference,
     purpose,
     location,
     photos: [],

@@ -35,10 +35,16 @@ authRouter.post(
   body('password', 'Password must be at least 8 characters long').isString().notEmpty().isLength({ min: 8, max: 128 }),
   // TODO: Uncomment, change sign-up to include these details
 
-  // body('firstName', 'Invalid first name specified').isString().trim().notEmpty().isLength({ min: 2, max: 128 }),
+  // body('firstName', 'Invalid first name specified')
+  //   .isString()
+  //   .trim()
+  //   .notEmpty()
+  //   .isLength({ min: 2, max: 128 }),
   // body('lastName', 'Invalid last name specified').isString().trim().notEmpty().isLength({ min: 2, max: 128 }),
   // body('birthDate', 'Invalid birth date specified').isISO8601().toDate(),
   // body('gender', 'Invalid gender specified').isIn(Object.values(Gender)),
+  // body('genderPreference', 'Invalid gender Purpose specified').isArray(),
+  // body('genderPreference.*', 'Invalid gender Purpose specified').isIn(Object.values(Gender)),
   // body('purpose', 'Invalid purpose specified').isIn(Object.values(UserPurpose)),
   // body('location', 'Invalid location specified').exists(),
 
@@ -50,6 +56,7 @@ authRouter.post(
     password: string;
     birthDate: Date;
     gender: Gender;
+    genderPreference: Gender[];
     purpose: UserPurpose;
     location: [number, number];
   }>(),
@@ -62,6 +69,7 @@ authRouter.post(
       lastName = 'unknown',
       birthDate = new Date(1996, 5, 1),
       gender = Math.random() > 0.5 ? Gender.Man : Gender.Woman,
+      genderPreference = [Gender.Man, Gender.Woman],
       purpose = UserPurpose.All,
       location = [35.019, 27.652],
     } = req.body;
@@ -77,6 +85,7 @@ authRouter.post(
       password,
       birthDate,
       gender,
+      genderPreference,
       purpose,
       location,
     });

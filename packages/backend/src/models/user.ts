@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     birthDate: { type: Date, required: true },
     gender: { type: String, required: true, enum: Object.values(Gender) },
+    genderPreference: { type: [String], required: true, enum: Object.values(Gender) },
     purpose: { type: String, required: true, enum: Object.values(UserPurpose) },
     // From the docs - https://mongoosejs.com/docs/geojson.html
     location: {
