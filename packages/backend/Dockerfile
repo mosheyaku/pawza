@@ -1,34 +1,41 @@
-# Use the official Ubuntu image as a base
-FROM ubuntu:20.04
+## Builder ##
+FROM node:20-alpine3.18 as builder
 
-# Set environment variables to prevent prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-  curl \
-  gnupg \
-  && rm -rf /var/lib/apt/lists/*
-
-# Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-  && apt-get install -y nodejs \
-  && npm install -g npm@latest
+# Install pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+RUN pnpm -v
 
 # Create app directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy files required for dependencies installation
+COPY package.json pnpm-*.yaml tsconfig.base.json ./
+COPY packages/backend/package.json ./packages/backend/package.json
+COPY packages/devtools ./packages/devtools
 
-# Install app dependencies
-RUN npm install
+# Install dependencies
+RUN pnpm install 
 
 # Copy the rest of the application code
-COPY . .
+COPY packages/backend ./packages/backend
+
+# Run the build script from package.json for pawza backend
+RUN pnpm --filter="@pawza/backend" build           
+# Create a min size bundle of dependencies to run the app
+RUN pnpm --filter="@pawza/backend" deploy --prod out
+
+## Runner ##
+FROM node:20-alpine3.18 as runner
+WORKDIR /usr/src/app
+
+# Copy deployed bundle
+COPY --from=builder /usr/src/app/out/dist ./dist
+COPY --from=builder /usr/src/app/out/node_modules ./node_modules
 
 # Expose the port the app runs on
-EXPOSE 8080
+EXPOSE 3000
 
 # Command to run the app
-CMD ["node", "server.js"]
+ENTRYPOINT ["node", "./dist/index.js"]

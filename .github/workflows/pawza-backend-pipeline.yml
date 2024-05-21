@@ -4,7 +4,16 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'backend_dockerfile_v1'
+      - "backend_dockerfile_v1"
+
+env:
+  AWS_REGION: eu-north-1 # set this to your preferred AWS region, e.g. us-west-1
+  ECS_SERVICE: Pawza-Dev-Cluster_Service # set this to your Amazon ECS service name
+  ECS_CLUSTER: Pawza-Dev-Cluster # set this to your Amazon ECS cluster name
+  ECS_TASK_DEFINITION: pawza-backend-ecs # set this to the path to your Amazon ECS task definition
+  CONTAINER_NAME:
+    pawza-backend-docker-image # set this to the name of the container in the
+    # containerDefinitions section of your task definition
 
 jobs:
   build:
@@ -13,20 +22,37 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Set up Docker Buildx                     # required for docker build and push
+
+      - name: Set up Docker Buildx # required for docker build and push
         uses: docker/setup-buildx-action@v3
-        
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push image to Docker Hub
+        id: build-image
         uses: docker/build-push-action@v5
         with:
-          context: backend
-          file: backend/Dockerfile
+          context: . # folder containing the Dockerfile
+          file: packages/backend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/pawza:backend_latest
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
