@@ -29,7 +29,11 @@ export const getPotentialMatches = async (userId: mongoose.Types.ObjectId | stri
     userChoices.purpose = { $in: [user.purpose, UserPurpose.All] };
   }
 
-  const usersToSuggest = await UserModel.aggregate([{ $match: userChoices }, { $sample: { size: 10 } }]);
+  const usersToSuggest = await UserModel.aggregate([
+    { $match: userChoices },
+    { $match: { active: true } },
+    { $sample: { size: 10 } },
+  ]);
 
   return usersToSuggest;
 };

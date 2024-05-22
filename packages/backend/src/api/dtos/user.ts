@@ -7,6 +7,7 @@ export interface UserDto {
   birthDate: string;
   gender: Gender;
   purpose: UserPurpose;
+  active: boolean;
 }
 
 export const toUserDto = (user: UserDoc): UserDto => ({
@@ -16,4 +17,5 @@ export const toUserDto = (user: UserDoc): UserDto => ({
   birthDate: user.birthDate.toISOString(),
   gender: user.gender,
   purpose: user.purpose,
+  active: user.active,
 });

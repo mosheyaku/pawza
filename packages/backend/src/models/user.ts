@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
+    active: { type: Boolean, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     password: { type: String, required: true },
