@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 
 import { getPotentialMatches } from '../../api/get-potential-matches';
+import { useAuth } from '../Auth/useAuth';
 import FullScreenLoader from '../Loader/FullScreenLoader';
 import TinderCard from '../TinderCard';
 import ImageCard from './ImageCard';
@@ -21,6 +22,8 @@ function Home() {
   const [suggestions, setSuggestions] = useState<SuggestedUser[]>([]);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
+
+  const { user } = useAuth();
 
   const topCard = useRef<any>(null);
 
@@ -67,6 +70,10 @@ function Home() {
   const onCardLeftScreen = (dir: 'right' | 'left') => {
     setSuggestionIndex((p) => p + 1);
   };
+
+  if (!user || !user.active) {
+    // TODO: Ron - Show the page to enter details
+  }
 
   if (isLoading) {
     return <FullScreenLoader />;

@@ -2,6 +2,7 @@ import { createContext, useContext } from 'react';
 
 export interface UserAuthData {
   firstName: string;
+  active: boolean;
 }
 
 interface AuthContextData {
