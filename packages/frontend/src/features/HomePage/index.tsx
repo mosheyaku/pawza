@@ -1,4 +1,3 @@
-/* +++++++++++++++++++++++++++++++++++++++++++++++++ Imports +++++++++++++++++++++++++++++++++++++++++++++++++ */
 import { Box, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
@@ -74,12 +73,12 @@ function Home() {
   }
 
   return (
-    <Box py={4} display="flex" flexDirection="column" boxSizing="border-box" height="100%">
+    <Box py={4} display="flex" flexDirection="column" justifyContent="center" boxSizing="border-box" height="100%">
       {suggested ? (
         <>
-          <Box position="relative" overflow="hidden" flexGrow={1}>
+          <Box position="relative" overflow="hidden" py={4}>
             {nextSuggestion && (
-              <Box zIndex={0} position="absolute" px={4}>
+              <Box zIndex={0} position="absolute" px={4} lineHeight={0}>
                 <ImageCard
                   image={nextSuggestion.photo}
                   age={nextSuggestion.age}
