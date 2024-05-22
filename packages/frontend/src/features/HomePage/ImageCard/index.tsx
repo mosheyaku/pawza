@@ -10,7 +10,7 @@ interface ImageCardProps {
 function ImageCard({ name, age, description, image }: ImageCardProps) {
   return (
     <Box position="relative" borderRadius="2rem">
-      <img style={{ borderRadius: '2rem', width: '100%' }} src={image} />
+      <img style={{ borderRadius: '2rem', width: '100%' }} src={image} draggable={false} />
       <Box
         py="0.5rem"
         position="absolute"
