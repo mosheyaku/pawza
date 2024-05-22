@@ -9,7 +9,7 @@ export const errorHandler = (): ErrorRequestHandler => async (error, req, res, n
     return res.status(error.status).json(error.message);
   }
 
-  logger.error('Unexpected Server Error', error.message);
+  logger.error('Unexpected Server Error', error.message, error.stack);
 
   res.status(500).send();
 };

@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
@@ -9,11 +10,11 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <Navbar />
-      <main style={{ flexGrow: 1, maxWidth: '400px', alignSelf: 'center' }}>
+      <Box component="main" flexGrow={1} maxWidth="400px" alignSelf="center" sx={{ overflowY: 'auto' }}>
         <MeFetcher>
           <Outlet />
         </MeFetcher>
-      </main>
+      </Box>
       <TanStackRouterDevtools />
 
       <Footer />

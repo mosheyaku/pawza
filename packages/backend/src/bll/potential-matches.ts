@@ -1,8 +1,12 @@
 import type mongoose from 'mongoose';
 import { type FilterQuery } from 'mongoose';
 
-import { PotentialMatchModel, PotentialMatchStatus } from '../models/potential-match.js';
+import { type PotentialMatchDoc, PotentialMatchModel, PotentialMatchStatus } from '../models/potential-match.js';
 import { type UserDoc, UserModel, UserPurpose } from '../models/user.js';
+
+export interface PotentialMatchPopulated extends Omit<PotentialMatchDoc, 'user'> {
+  user: UserDoc;
+}
 
 export const getPotentialMatches = async (userId: mongoose.Types.ObjectId | string) => {
   const user = await UserModel.findById(userId).orFail();
@@ -25,7 +29,7 @@ export const getPotentialMatches = async (userId: mongoose.Types.ObjectId | stri
     userChoices.purpose = { $in: [user.purpose, UserPurpose.All] };
   }
 
-  const matches = await UserModel.aggregate([{ $match: userChoices }, { $sample: { size: 10 } }]);
+  const usersToSuggest = await UserModel.aggregate([{ $match: userChoices }, { $sample: { size: 10 } }]);
 
-  return matches;
+  return usersToSuggest;
 };

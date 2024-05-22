@@ -1,4 +1,4 @@
-const USERS_TO_GENERATE = 50;
+const USERS_TO_GENERATE = 20;
 
 const fs = require('fs');
 const { uniqueNamesGenerator, names } = require('unique-names-generator');
@@ -6,8 +6,23 @@ const { uniqueNamesGenerator, names } = require('unique-names-generator');
 const UserPurpose = ['platonic', 'romantic', 'all'];
 const Genders = ['man', 'woman', 'other'];
 
+const man = [
+  'black+man+with+dog.jpg',
+  'man+with+husky.jpg',
+  'man+with+bulldog.jpg',
+  'man+with+golden.jpg',
+];
+const woman = [
+  'woman_with_dog.jpg',
+  'woman+dog+beach.jpg',
+  'woman+walking+dog.jpg',
+  'woman+with+husky.jpg',
+];
+const all = [...man, ...woman];
+
 const generateRandomUser = () => {
   const gender = Genders[Math.floor(Math.random() * Genders.length)];
+  const genderPreference = [Genders[Math.floor(Math.random() * 2)]];
   const purpose = UserPurpose[Math.floor(Math.random() * UserPurpose.length)];
 
   const firstName = uniqueNamesGenerator({ dictionaries: [names] });
@@ -28,10 +43,11 @@ const generateRandomUser = () => {
     (Math.random() * 180 - 90).toFixed(6), // Latitude between -90 and 90
   ];
 
-  const photos = Array.from(
-    { length: Math.floor(Math.random() * 5 + 1) },
-    (_, index) => `https://example.com/photos/${firstName}${lastName}${index + 1}.jpg`
-  );
+  const imgs = gender === 'man' ? man : gender === 'woman' ? woman : all;
+
+  const photos = [
+    `https://pawza-user-images2.s3.eu-north-1.amazonaws.com/${imgs[Math.floor(Math.random() * imgs.length)]}`,
+  ];
 
   return {
     email,
@@ -40,6 +56,7 @@ const generateRandomUser = () => {
     password: 'hashedpassword123', // Placeholder for the hashed password
     birthDate,
     gender,
+    genderPreference,
     purpose,
     location: {
       type: 'Point',
