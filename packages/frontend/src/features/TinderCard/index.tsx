@@ -293,6 +293,7 @@ export default React.forwardRef<any, any>(
       className,
       style: {
         transform: xyrot.to((x, y, rot) => `translate3d(${x}px, ${y}px, ${0}px) rotate(${rot}deg)`),
+        lineHeight: 0,
       },
       children,
     });

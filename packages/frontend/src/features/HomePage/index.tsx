@@ -9,8 +9,17 @@ import TinderCard from '../TinderCard';
 import ImageCard from './ImageCard';
 import PawButton from './PawButton';
 
+interface SuggestedUser {
+  id: string;
+  firstName: string;
+  age: number;
+  gender: string;
+  photo: string;
+  addressed: boolean;
+}
+
 function Home() {
-  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [suggestions, setSuggestions] = useState<SuggestedUser[]>([]);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
 
@@ -71,13 +80,18 @@ function Home() {
           <Box position="relative" overflow="hidden" flexGrow={1}>
             {nextSuggestion && (
               <Box zIndex={0} position="absolute" px={4}>
-                <ImageCard src={nextSuggestion.photo} draggable="false"></ImageCard>
+                <ImageCard
+                  image={nextSuggestion.photo}
+                  age={nextSuggestion.age}
+                  description=""
+                  name={nextSuggestion.firstName}
+                />
               </Box>
             )}
 
             <Box px={4}>
               <TinderCard ref={topCard} onCardLeftScreen={onCardLeftScreen} preventSwipe={['up', 'down']}>
-                <ImageCard src={suggested.photo} draggable="false"></ImageCard>
+                <ImageCard image={suggested.photo} age={suggested.age} description="" name={suggested.firstName} />
               </TinderCard>
             </Box>
           </Box>

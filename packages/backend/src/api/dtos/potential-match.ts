@@ -1,15 +1,19 @@
-import { type Gender, type UserDoc } from '../../models/user.js';
+import dayjs from 'dayjs';
+
+import { type UserDoc } from '../../models/user.js';
 
 export interface PotentialMatchDto {
+  id: string;
   firstName: string;
-  birthDate: string;
-  gender: Gender;
+  age: number;
+  gender: string;
   photo: string;
 }
 
 export const toPotentialMatchDto = (user: UserDoc): PotentialMatchDto => ({
+  id: user._id.toString(),
   firstName: user.firstName,
-  birthDate: user.birthDate,
+  age: dayjs().diff(user.birthDate, 'years'),
   gender: user.gender,
   photo: user.photos[0],
 });
