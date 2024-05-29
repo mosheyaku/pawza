@@ -6,14 +6,14 @@ on:
     branches:
       - "backend_dockerfile_v1"
 
-env:
-  AWS_REGION: eu-north-1 # set this to your preferred AWS region, e.g. us-west-1
-  ECS_SERVICE: Pawza-Dev-Cluster_Service # set this to your Amazon ECS service name
-  ECS_CLUSTER: Pawza-Dev-Cluster # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: pawza-backend-ecs # set this to the path to your Amazon ECS task definition
-  CONTAINER_NAME:
-    pawza-backend-docker-image # set this to the name of the container in the
-    # containerDefinitions section of your task definition
+# env:
+#   AWS_REGION: eu-north-1 # set this to your preferred AWS region, e.g. us-west-1
+#   ECS_SERVICE: Pawza-Dev-Cluster_Service # set this to your Amazon ECS service name
+#   ECS_CLUSTER: Pawza-Dev-Cluster # set this to your Amazon ECS cluster name
+#   ECS_TASK_DEFINITION: pawza-backend-ecs # set this to the path to your Amazon ECS task definition
+#   CONTAINER_NAME:
+#     pawza-backend-docker-image # set this to the name of the container in the
+#     # containerDefinitions section of your task definition
 
 jobs:
   build:
@@ -33,26 +33,25 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push image to Docker Hub
-        id: build-image
         uses: docker/build-push-action@v5
         with:
           context: . # folder containing the Dockerfile
           file: packages/backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pawza:backend_latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pawza:latest
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION }}
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
+      # - name: Fill in the new image ID in the Amazon ECS task definition
+      #   id: task-def
+      #   uses: aws-actions/amazon-ecs-render-task-definition@v1
+      #   with:
+      #     task-definition: ${{ env.ECS_TASK_DEFINITION }}
+      #     container-name: ${{ env.CONTAINER_NAME }}
+      #     image: ${{ steps.build-image.outputs.image }}
 
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+      # - name: Deploy Amazon ECS task definition
+      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      #   with:
+      #     task-definition: ${{ steps.task-def.outputs.task-definition }}
+      #     service: ${{ env.ECS_SERVICE }}
+      #     cluster: ${{ env.ECS_CLUSTER }}
+      #     wait-for-service-stability: true
