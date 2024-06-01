@@ -46,7 +46,9 @@ function Home() {
 
     setSuggestions((p) => [
       ...p.filter((suggestion) => !suggestion.addressed),
-      ...res.data.map((x: any) => ({ ...x, addressed: false })),
+      ...res.data
+        .filter((newSuggestion: any) => !p.find((existingSuggestion) => existingSuggestion.id === newSuggestion.id))
+        .map((x: any) => ({ ...x, addressed: false })),
     ]);
 
     setSuggestionIndex(0);
@@ -70,6 +72,7 @@ function Home() {
     }
 
     if (
+      suggestionIndex !== 0 &&
       suggestions.length &&
       suggestions.length - suggestionIndex <= 5 &&
       !isPending &&

@@ -28,7 +28,6 @@ authRouter.get(
   },
 );
 
-// TODO: JASON - Handle photos upload
 authRouter.post(
   '/sign-up',
   body('email', 'Invalid email address specified').isString().trim().notEmpty().isEmail(),

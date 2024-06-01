@@ -35,8 +35,6 @@ export const getPotentialMatches = async (userId: mongoose.Types.ObjectId | stri
     { $sample: { size: 10 } },
   ]);
 
-  // TODO: JASON - Bulk insert here
-
   return usersToSuggest;
 };
 
