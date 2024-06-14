@@ -12,17 +12,15 @@ potentialMatcherRouter.get('/', async (req, res) => {
 });
 
 potentialMatcherRouter.post('/:suggestedUserId/accept', async (req, res) => {
-  const userId = new mongoose.Types.ObjectId(req.user.id);
   const suggestedUserId = new mongoose.Types.ObjectId(req.params.suggestedUserId);
-  await acceptPotentialMatch(userId, suggestedUserId);
+  await acceptPotentialMatch(req.user.id, suggestedUserId);
 
   res.status(200).send();
 });
 
 potentialMatcherRouter.post('/:suggestedUserId/decline', async (req, res) => {
-  const userId = new mongoose.Types.ObjectId(req.user.id);
   const suggestedUserId = new mongoose.Types.ObjectId(req.params.suggestedUserId);
-  await declinePotentialMatch(userId, suggestedUserId);
+  await declinePotentialMatch(req.user.id, suggestedUserId);
 
   res.status(200).send();
 });

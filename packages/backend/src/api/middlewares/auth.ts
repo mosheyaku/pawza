@@ -1,4 +1,5 @@
 import { type NextFunction, type Request, type Response } from 'express';
+import mongoose from 'mongoose';
 
 import { verifyToken } from '../../bll/auth.js';
 import { AppNotAuthorizedError } from '../../errors/app-not-authorized.js';
@@ -33,7 +34,7 @@ export const auth =
       }
 
       req.user = {
-        id: decoded.userId,
+        id: new mongoose.Types.ObjectId(decoded.userId),
         email: decoded.email,
         firstName: decoded.firstName,
       };
@@ -55,7 +56,7 @@ declare global {
     }
 
     interface User extends Omit<AuthPayload, 'userId'> {
-      id: string;
+      id: mongoose.Types.ObjectId;
     }
   }
 }

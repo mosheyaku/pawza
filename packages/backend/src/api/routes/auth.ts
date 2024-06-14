@@ -6,7 +6,7 @@ import { createNewUser, userExists } from '../../bll/user.js';
 import { AppBadRequestError } from '../../errors/app-bad-request.js';
 import { AppNotAuthorizedError } from '../../errors/app-not-authorized.js';
 import { AppError } from '../../errors/base.js';
-import { Gender, UserModel, type UserPurpose } from '../../models/user.js';
+import { Gender, UserModel, UserPurpose } from '../../models/user.js';
 import { toUserDto } from '../dtos/user.js';
 import { auth } from '../middlewares/auth.js';
 import { requestBodyType, requestQueryType } from '../middlewares/request-types.js';
@@ -64,12 +64,12 @@ authRouter.post(
       email,
       password,
       // TODO: Remove fallback values when sign up is complete
-      firstName = '',
-      lastName = '',
+      firstName = 'Itamar',
+      lastName = 'Zwi',
       birthDate = new Date(),
-      gender = Gender.Other,
-      genderPreference = [],
-      purpose = '',
+      gender = Gender.Woman,
+      genderPreference = [Gender.Man, Gender.Woman, Gender.NonBinary],
+      purpose = UserPurpose.All,
       location = [0, 0],
     } = req.body;
 
@@ -87,7 +87,6 @@ authRouter.post(
       genderPreference,
       purpose: purpose as any,
       location,
-      active: false,
     });
 
     return res.status(201).send();

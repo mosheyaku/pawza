@@ -9,7 +9,7 @@ export enum UserPurpose {
 export enum Gender {
   Man = 'man',
   Woman = 'woman',
-  Other = 'other',
+  NonBinary = 'nonbinary',
 }
 
 const userSchema = new mongoose.Schema(
@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
-    active: { type: Boolean, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     password: { type: String, required: true },
