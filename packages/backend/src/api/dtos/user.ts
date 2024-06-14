@@ -1,6 +1,7 @@
 import { type Gender, type UserDoc, type UserPurpose } from '../../models/user.js';
 
 export interface UserDto {
+  id: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -11,6 +12,7 @@ export interface UserDto {
 }
 
 export const toUserDto = (user: UserDoc): UserDto => ({
+  id: user._id.toString(),
   email: user.email,
   firstName: user.firstName,
   lastName: user.lastName,
