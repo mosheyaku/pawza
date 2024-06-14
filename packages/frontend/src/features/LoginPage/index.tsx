@@ -32,7 +32,6 @@ export default function Login() {
     mutateAsync: login,
     isPending,
     isSuccess,
-    isError,
   } = useMutation({
     mutationFn: (data: { email: string; password: string }) => loginApiCall(data),
   });

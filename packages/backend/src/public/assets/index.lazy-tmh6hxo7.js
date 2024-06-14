@@ -1,0 +1,1 @@
+import{c as o,u as r,j as e,N as t}from"./index-DC8SQjxc.js";const n=o("/")({component:u});function u(){return r().user?e.jsx(t,{to:"/home",replace:!0}):e.jsx(t,{to:"/login",replace:!0})}export{n as Route};

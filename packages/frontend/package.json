@@ -1,11 +1,11 @@
 {
-  "name": "frontend",
+  "name": "@pawza/frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "rimraf dist && tsc && vite build",
     "format": "biome format ./src --diagnostic-level=error",
     "format:fix": "biome format ./src --write",
     "lint": "eslint src --ext ts,tsx --max-warnings 0",
@@ -33,6 +33,7 @@
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
+    "rimraf": "^5.0.7",
     "sass": "^1.75.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",

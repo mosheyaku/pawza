@@ -249,7 +249,7 @@ export default React.forwardRef<any, any>(
 
       window.addEventListener('mousemove', onMouseMove);
 
-      const onMouseUp = (ev: any) => {
+      const onMouseUp = () => {
         if (!isClicking) return;
         isClicking = false;
         handleSwipeReleased(setSpringTarget, lastPosition);
@@ -267,7 +267,7 @@ export default React.forwardRef<any, any>(
 
       element.current!.addEventListener('touchmove', onTouchMove);
 
-      const onTouchEnd = (ev: any) => {
+      const onTouchEnd = () => {
         handleSwipeReleased(setSpringTarget, lastPosition);
         startPositon = { x: 0, y: 0 };
         lastPosition = { dx: 0, dy: 0, vx: 0, vy: 0, timeStamp: Date.now() };

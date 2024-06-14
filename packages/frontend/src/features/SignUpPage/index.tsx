@@ -26,12 +26,7 @@ export default function SignUpPage() {
 
   const navigate = useNavigate();
 
-  const {
-    mutateAsync: signUp,
-    isPending,
-    isSuccess,
-    isError,
-  } = useMutation({
+  const { mutateAsync: signUp, isPending } = useMutation({
     mutationFn: (data: { email: string; password: string }) => signUpApiCall(data),
   });
 

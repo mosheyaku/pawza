@@ -3,6 +3,7 @@ import 'express-async-errors';
 import cors from 'cors';
 import express, { type NextFunction, type Request, type Response } from 'express';
 import helmet from 'helmet';
+import path from 'path';
 
 import { errorHandler } from './api/middlewares/error-handler.js';
 import { indexRouter } from './api/routes/index.js';
@@ -24,6 +25,11 @@ if (IS_DEV) {
 }
 
 app.use('/api', indexRouter);
+
+app.use(express.static(path.resolve(import.meta.dirname, 'public')));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(import.meta.dirname, './public', 'index.html'));
+});
 
 app.use(errorHandler());
 

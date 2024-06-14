@@ -2,7 +2,10 @@
   "name": "pawza",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "build": "pnpm --filter=\"@pawza/frontend\" build && pnpm run copy-front",
+    "copy-front": "rimraf packages/backend/src/public && copyfiles -u 3 \"packages/frontend/dist/**/*\" packages/backend/src/public"
+  },
   "keywords": [],
   "author": "",
   "license": "UNLICENSED",
@@ -10,5 +13,9 @@
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
     "@pawza/eslint-config": "workspace:^"
+  },
+  "dependencies": {
+    "copyfiles": "^2.4.1",
+    "rimraf": "^5.0.7"
   }
 }
