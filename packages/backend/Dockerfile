@@ -22,7 +22,7 @@ RUN pnpm install
 COPY packages/backend ./packages/backend
 
 # Run the build script from package.json for pawza backend
-RUN pnpm --filter="@pawza/backend" build           
+RUN pnpm --filter="@pawza/backend" build
 # Create a min size bundle of dependencies to run the app
 RUN pnpm --filter="@pawza/backend" deploy --prod out
 
@@ -33,6 +33,7 @@ WORKDIR /usr/src/app
 # Copy deployed bundle
 COPY --from=builder /usr/src/app/out/dist ./dist
 COPY --from=builder /usr/src/app/out/node_modules ./node_modules
+COPY --from=builder /usr/src/app/out/package.json ./package.json
 
 # Expose the port the app runs on
 EXPOSE 3000
