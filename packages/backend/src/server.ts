@@ -32,16 +32,17 @@ export const startServer = async () =>
   await new Promise<void>((resolve) => {
     app.set('port', port);
 
-    const pemPath = IS_PROD ? '/etc/letsencrypt/live/pawza.xyz' : path.resolve(__dirname, '../');
+    const server = (() => {
+      if (!IS_PROD) {
+        return http.createServer(app);
+      }
 
-    const key = fs.readFileSync(path.resolve(pemPath, './privkey.pem'));
-    const cert = fs.readFileSync(path.resolve(pemPath, './fullchain.pem'));
+      const pemPath = '/etc/letsencrypt/live/pawza.xyz';
 
-    const server = IS_PROD ? https.createServer({ key, cert }, app) : http.createServer(app);
-
-    if (IS_PROD) {
-      console.log('I am on prod, creating https server');
-    }
+      const key = fs.readFileSync(path.resolve(pemPath, './privkey.pem'));
+      const cert = fs.readFileSync(path.resolve(pemPath, './fullchain.pem'));
+      return https.createServer({ key, cert }, app);
+    })();
 
     server.on('error', onError);
     server.on('listening', () => {

@@ -7,7 +7,7 @@ import path from 'path';
 
 import { errorHandler } from './api/middlewares/error-handler.js';
 import { indexRouter } from './api/routes/index.js';
-import { IS_DEV } from './config.js';
+import { IS_DEV, IS_PROD } from './config.js';
 
 const app = express().disable('etag').disable('x-powered-by');
 
@@ -26,10 +26,12 @@ if (IS_DEV) {
 
 app.use('/api', indexRouter);
 
-app.use(express.static(path.resolve(import.meta.dirname, 'public')));
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(import.meta.dirname, './public', 'index.html'));
-});
+if (IS_PROD) {
+  app.use(express.static(path.resolve(import.meta.dirname, 'public')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(import.meta.dirname, './public', 'index.html'));
+  });
+}
 
 app.use(errorHandler());
 

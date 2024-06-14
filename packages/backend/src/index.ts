@@ -12,7 +12,7 @@ async function main() {
     await startServer();
   } catch (err) {
     logger.error('Critical error, cannot start app');
-    logger.error(err as string);
+    console.log(err);
   }
 }
 
