@@ -12,7 +12,6 @@ export interface PotentialMatchPopulated extends Omit<PotentialMatchDoc, 'user'>
 export const getPotentialMatches = async (userId: mongoose.Types.ObjectId | string) => {
   try {
     const user = await UserModel.findById(userId).orFail();
-    console.log('User found:', user);
 
     const matchesToIgnore = await PotentialMatchModel.find({
       user: user._id,
@@ -61,9 +60,7 @@ export const acceptPotentialMatch = async (user: mongoose.Types.ObjectId, sugges
 
   if (reverseMatch) {
     await createChat(user, suggestedUser);
-    console.log("New Chat Created");
   }
-
 };
 
 export const declinePotentialMatch = async (user: mongoose.Types.ObjectId, suggestedUser: mongoose.Types.ObjectId) => {
