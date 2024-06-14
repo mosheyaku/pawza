@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { AuthContext, type UserAuthData } from './useAuth';
+import { type User } from '../../api/me';
+import { AuthContext } from './useAuth';
 
 export interface LoginBody {
   username: string;
@@ -8,10 +9,10 @@ export interface LoginBody {
 }
 
 const AuthProvider = ({ children }: React.PropsWithChildren) => {
-  const [user, setUser] = useState<UserAuthData | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isInitiating, setIsInitiating] = useState(true);
 
-  const setUserExternal = (newUser: UserAuthData | null) => {
+  const setUserExternal = (newUser: User | null) => {
     setUser(newUser);
     setIsInitiating(false);
   };

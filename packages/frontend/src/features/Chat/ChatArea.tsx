@@ -1,6 +1,6 @@
 import SendIcon from '@mui/icons-material/Send';
 import { Avatar, Box, IconButton, TextField, Typography } from '@mui/material';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { type Chat, fetchChat, fetchMessages, type Message, sendMessage } from '../../api/chats';
@@ -9,18 +9,25 @@ import FullScreenLoader from '../Loader/FullScreenLoader';
 import MessageItem from './Message/MessageItem'; // Import MessageItemProps
 
 function ChatArea({ chatId }: { chatId: string }) {
-  const queryClient = useQueryClient();
   const [newMessage, setNewMessage] = useState('');
   const { user } = useAuth();
 
   // Fetch chat information
-  const { data: chat, isLoading: isLoadingChat, error: chatError } = useQuery<Chat>({
+  const {
+    data: chat,
+    isLoading: isLoadingChat,
+    error: chatError,
+  } = useQuery<Chat>({
     queryKey: ['chats', chatId],
     queryFn: () => fetchChat(chatId),
   });
 
   // Fetch messages using useQuery with polling every 2 seconds
-  const { data: messages = [], isLoading: isLoadingMessages, error: messagesError } = useQuery<Message[]>({
+  const {
+    data: messages = [],
+    isLoading: isLoadingMessages,
+    error: messagesError,
+  } = useQuery<Message[]>({
     queryKey: ['chats', chatId, 'messages'],
     queryFn: () => fetchMessages(chatId),
     refetchInterval: 2000,
@@ -29,10 +36,6 @@ function ChatArea({ chatId }: { chatId: string }) {
   // Mutation for sending a message
   const mutation = useMutation({
     mutationFn: ({ content }: { content: string }) => sendMessage(chatId, content),
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(['chats', chatId, 'messages']);
-    },
   });
 
   const handleSendMessage = async (e: React.FormEvent) => {
