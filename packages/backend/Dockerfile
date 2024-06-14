@@ -36,7 +36,7 @@ COPY --from=builder /usr/src/app/out/node_modules ./node_modules
 COPY --from=builder /usr/src/app/out/package.json ./package.json
 
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 80
 
 # Command to run the app
 ENTRYPOINT ["node", "./dist/index.js"]
