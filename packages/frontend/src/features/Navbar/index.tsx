@@ -14,7 +14,10 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ height: '4rem', background: 'linear-gradient(to right, #DA9407, #ECB16B)' }}>
+    <AppBar
+      position="static"
+      sx={{ height: '4rem', background: 'linear-gradient(to right, #DA9407, #ECB16B)', boxShadow: 'none' }}
+    >
       <Toolbar sx={{ height: '4rem', display: 'flex', justifyContent: 'space-between' }}>
         {/* Image and Text on the Left */}
         <div style={{ display: 'flex', alignItems: 'center' }}>

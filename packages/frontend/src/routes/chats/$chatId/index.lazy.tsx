@@ -1,7 +1,8 @@
 import { createLazyFileRoute, useParams } from '@tanstack/react-router';
 
 import AuthenticatedRoute from '../../../features/AuthenticatedRoute';
-import ChatArea from '../../../features/Chat/ChatArea';
+import ChatPage from '../../../features/ChatsPage/ChatPage';
+import FullScreenLoader from '../../../features/Loader/FullScreenLoader';
 
 function Index() {
   const chatId = useParams({
@@ -13,11 +14,12 @@ function Index() {
     return <div>Error: chatId is missing</div>;
   }
 
-  return <ChatArea chatId={chatId} />;
+  return <ChatPage chatId={chatId} />;
 }
 
 const AuthenticatedIndex = AuthenticatedRoute(Index);
 
 export const Route = createLazyFileRoute('/chats/$chatId/')({
   component: AuthenticatedIndex,
+  pendingComponent: FullScreenLoader,
 });

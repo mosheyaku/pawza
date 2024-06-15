@@ -1,6 +1,7 @@
 import CircleIcon from '@mui/icons-material/Circle';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 
 import { markNotificationAsRead } from '../../../api/notifications';
 
@@ -13,11 +14,13 @@ export interface NotificationProps {
 }
 
 function Notification({ id, content, read, title, image }: NotificationProps) {
+  const [isNew, setIsNew] = useState(!read);
   const queryClient = useQueryClient();
-  const { mutateAsync: markAsRead, isSuccess: didRead } = useMutation({
+  const { mutateAsync: markAsRead } = useMutation({
     mutationFn: () => markNotificationAsRead(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['unreadNotificationsCount'] });
+      setIsNew(false);
     },
   });
 
@@ -26,8 +29,6 @@ function Notification({ id, content, read, title, image }: NotificationProps) {
       await markAsRead();
     }
   };
-
-  const isNew = !read && !didRead;
 
   return (
     <Button
