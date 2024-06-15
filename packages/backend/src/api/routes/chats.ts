@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import mongoose, { isObjectIdOrHexString } from 'mongoose';
 
-import { createMessage, getChatById,getMatchedChats, getMessagesForChat } from '../../bll/chats.js';
+import { createMessage, getChatById, getMatchedChats, getMessagesForChat } from '../../bll/chats.js';
 import { AppBadRequestError } from '../../errors/app-bad-request.js';
 import { toChatDto } from '../dtos/chat.js';
 import { toMessageDto } from '../dtos/message.js';
@@ -13,7 +13,7 @@ chatsRouter.get('/', auth(), async (req, res) => {
   const userId = new mongoose.Types.ObjectId(req.user.id);
   const chats = await getMatchedChats(userId);
 
-  const chatDtos = chats.map(chat => toChatDto(chat, userId));
+  const chatDtos = chats.map((chat) => toChatDto(chat, userId));
   res.json(chatDtos);
 });
 
@@ -34,7 +34,7 @@ chatsRouter.get('/:chatId', auth(), async (req, res) => {
 });
 
 chatsRouter.post('/:chatId/messages', auth(), async (req, res) => {
-  const { content } = req.body;
+  const { content } = req.body as any;
   const { chatId } = req.params;
   const senderId = req.user.id;
 
@@ -42,7 +42,11 @@ chatsRouter.post('/:chatId/messages', auth(), async (req, res) => {
     throw new AppBadRequestError();
   }
 
-  const newMessage = await createMessage(content, new mongoose.Types.ObjectId(chatId), new mongoose.Types.ObjectId(senderId));
+  const newMessage = await createMessage(
+    content,
+    new mongoose.Types.ObjectId(chatId),
+    new mongoose.Types.ObjectId(senderId),
+  );
   const messageDto = toMessageDto(newMessage);
   res.status(201).json(messageDto);
 });

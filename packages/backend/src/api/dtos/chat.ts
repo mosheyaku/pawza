@@ -1,6 +1,6 @@
 import type mongoose from 'mongoose';
 
-import { type ChatDoc } from '../../models/chat.js';
+import { type PopulatedChatDoc } from '../../models/chat.js';
 
 export interface ChatDto {
   _id: string;
@@ -15,9 +15,9 @@ export interface ChatDto {
   latestMessage: string;
 }
 
-export const toChatDto = (chat: ChatDoc, userId: mongoose.Types.ObjectId): ChatDto => {
-  const matchedUser = chat.users.find(user => !user._id.equals(userId))!;
-  const currentUser = chat.users.find(user => user._id.equals(userId))!;
+export const toChatDto = (chat: PopulatedChatDoc, userId: mongoose.Types.ObjectId): ChatDto => {
+  const matchedUser = chat.users.find((user) => !user._id.equals(userId))!;
+  const currentUser = chat.users.find((user) => user._id.equals(userId))!;
 
   return {
     _id: chat._id.toString(),
