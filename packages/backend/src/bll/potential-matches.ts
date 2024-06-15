@@ -10,7 +10,10 @@ export interface PotentialMatchPopulated extends Omit<PotentialMatchDoc, 'user'>
   user: UserDoc;
 }
 
-export const getPotentialMatches = async (userId: mongoose.Types.ObjectId | string) => {
+export const getPotentialMatches = async (
+  userId: mongoose.Types.ObjectId,
+  userIdsToIgnore: mongoose.Types.ObjectId[],
+) => {
   const user = await UserModel.findById(userId).orFail();
 
   const matchesToIgnore = await PotentialMatchModel.find({
@@ -18,7 +21,7 @@ export const getPotentialMatches = async (userId: mongoose.Types.ObjectId | stri
     status: { $ne: PotentialMatchStatus.Pending },
   });
 
-  const userIdsToIgnore = matchesToIgnore.map((potentialMatch) => potentialMatch.suggestedUser);
+  userIdsToIgnore.push(...matchesToIgnore.map((potentialMatch) => potentialMatch.suggestedUser));
   userIdsToIgnore.push(user._id); // don't suggest myself
 
   const userChoices: FilterQuery<UserDoc> = {
@@ -31,7 +34,7 @@ export const getPotentialMatches = async (userId: mongoose.Types.ObjectId | stri
     userChoices.purpose = { $in: [user.purpose, UserPurpose.All] };
   }
 
-  const usersToSuggest = await UserModel.aggregate([{ $match: userChoices }, { $sample: { size: 10 } }]);
+  const usersToSuggest = await UserModel.aggregate([{ $match: userChoices }, { $sample: { size: 2 } }]);
 
   return usersToSuggest;
 };

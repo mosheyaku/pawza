@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { decidePotentialMatch, getPotentialMatches } from '../../api/potential-matches';
+import { decidePotentialMatch, getPotentialMatch } from '../../api/potential-matches';
 import FullScreenLoader from '../Loader/FullScreenLoader';
 import TinderCard from '../TinderCard';
 import ImageCard from './ImageCard';
@@ -19,19 +19,19 @@ interface SuggestedUser {
 
 function Home() {
   const [suggestions, setSuggestions] = useState<SuggestedUser[]>([]);
-  const [suggestionIndex, setSuggestionIndex] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
-
   const topCard = useRef<any>(null);
+  const [resetCard, setResetCard] = useState(1);
+  const unaddressedSuggestionsCount = useMemo(() => suggestions.filter((x) => !x.addressed).length, [suggestions]);
 
   const {
-    data: res,
+    data: potentialMatches,
     isLoading,
     isPending,
     refetch,
   } = useQuery({
     queryKey: ['suggestions'],
-    queryFn: getPotentialMatches,
+    queryFn: () => getPotentialMatch(suggestions.map((x) => x.id)),
   });
 
   const { mutateAsync: callDecidePotentialMatch } = useMutation({
@@ -39,17 +39,15 @@ function Home() {
   });
 
   useEffect(() => {
-    if (!res) return;
+    if (!potentialMatches) return;
 
     setSuggestions((p) => [
       ...p.filter((suggestion) => !suggestion.addressed),
-      ...res.data
+      ...potentialMatches
         .filter((newSuggestion: any) => !p.find((existingSuggestion) => existingSuggestion.id === newSuggestion.id))
         .map((x: any) => ({ ...x, addressed: false })),
     ]);
-
-    setSuggestionIndex(0);
-  }, [res]);
+  }, [potentialMatches]);
 
   const swipe = async (dir: 'left' | 'right') => {
     if (topCard.current) {
@@ -64,33 +62,27 @@ function Home() {
   };
 
   useEffect(() => {
+    // If we are not fetching, and we have less than 2 suggestions in the background, fetch one more
+    if (!isPending && unaddressedSuggestionsCount < 2 && suggestions.length !== 0) {
+      refetch();
+    }
+  }, [unaddressedSuggestionsCount, refetch, isPending, suggestions.length]);
+
+  useEffect(() => {
     if (topCard.current) {
       topCard.current.restoreCard({ instant: true });
     }
+  }, [resetCard]);
 
-    if (
-      suggestionIndex !== 0 &&
-      suggestions.length &&
-      suggestions.length - suggestionIndex <= 5 &&
-      !isPending &&
-      (!res || res.data.length !== 0)
-    ) {
-      refetch();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [suggestionIndex]);
-
-  const suggested = suggestions[suggestionIndex];
-  const nextSuggestion = suggestions[suggestionIndex + 1];
+  const suggested = suggestions[0];
+  const nextSuggestion = suggestions[0 + 1];
 
   const onCardLeftScreen = (dir: 'right' | 'left') => {
-    setSuggestionIndex((p) => p + 1);
     const decision = dir === 'right' ? 'accept' : 'decline';
 
-    if (!suggested.addressed) {
-      suggested.addressed = true;
-      callDecidePotentialMatch({ suggestedUserId: suggested.id, decision });
-    }
+    setSuggestions((p) => p.filter((_, index) => index !== 0));
+    setResetCard((p) => p + 1);
+    callDecidePotentialMatch({ suggestedUserId: suggested.id, decision });
   };
 
   if (isLoading) {
@@ -98,7 +90,7 @@ function Home() {
   }
 
   return (
-    <Box py={4} display="flex" flexDirection="column" justifyContent="center" boxSizing="border-box">
+    <Box display="flex" flexDirection="column" justifyContent="center" boxSizing="border-box">
       {suggested ? (
         <>
           <Box position="relative" overflow="hidden" py={4} sx={{ aspectRatio: 1 }}>
@@ -108,9 +100,9 @@ function Home() {
                 position="absolute"
                 p={4}
                 lineHeight={0}
-                height="100%"
                 width="100%"
                 boxSizing="border-box"
+                sx={{ aspectRatio: 1 }}
               >
                 <ImageCard
                   image={nextSuggestion.photo}
@@ -121,7 +113,7 @@ function Home() {
               </Box>
             )}
 
-            <Box p={4} height="100%">
+            <Box p={4} height="100%" boxSizing="border-box" sx={{ aspectRatio: 1 }}>
               <TinderCard ref={topCard} onCardLeftScreen={onCardLeftScreen} preventSwipe={['up', 'down']}>
                 <ImageCard image={suggested.photo} age={suggested.age} description="" name={suggested.firstName} />
               </TinderCard>

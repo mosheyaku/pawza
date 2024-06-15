@@ -1,5 +1,5 @@
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { Alert, Avatar, Box, Button, Snackbar } from '@mui/material';
+import { Alert, Avatar, Box, Button, Snackbar, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 
@@ -39,7 +39,7 @@ export default function ProfilePage() {
       <Box
         sx={{
           borderRadius: '50%',
-          py: 8,
+          pt: 8,
           width: '100%',
           aspectRatio: 1,
           overflow: 'hidden',
@@ -84,6 +84,11 @@ export default function ProfilePage() {
           )}
         </Button>
       </Box>
+
+      <Typography variant="h3" sx={{ mt: 4 }}>
+        {user!.firstName} {user!.lastName}
+      </Typography>
+
       <input
         ref={fileInputRef}
         id="fileInput"

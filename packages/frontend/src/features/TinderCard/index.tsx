@@ -296,6 +296,7 @@ export default React.forwardRef<any, any>(
         lineHeight: 0,
         height: '100%',
         background: '#f0f0f0',
+        borderRadius: '2rem',
       },
       children,
     });
