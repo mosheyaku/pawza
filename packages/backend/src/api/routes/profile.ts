@@ -25,7 +25,7 @@ const upload = multer({
 });
 
 profileRouter.post('/avatar', upload.single('file'), async (req, res) => {
-  const fileUri = `${(req.file as any).location}?v=\${Math.random().toFixed(4).substring(2)}`;
+  const fileUri = `${(req.file as any).location}?v=${Math.random().toFixed(4).substring(2)}`;
 
   await changeProfileImage(req.user.id, fileUri);
 
