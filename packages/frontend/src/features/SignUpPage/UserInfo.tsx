@@ -140,21 +140,6 @@ export default function UserInfo({ setUserInfo, changeState, initialState }: Use
                 error={wasLastNameChanged && lastName === ''}
               />
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                required
-                fullWidth
-                label="Gender"
-                name="lastName"
-                autoComplete="family-name"
-                value={lastName}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                  setWasLastNameChanged(true);
-                }}
-                error={wasLastNameChanged && lastName === ''}
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 required

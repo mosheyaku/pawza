@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ProfileIndexImport } from './routes/profile/index'
 import { Route as NotificationsIndexImport } from './routes/notifications/index'
 import { Route as HomeIndexImport } from './routes/home/index'
 
@@ -45,6 +46,11 @@ const ChatsIndexLazyRoute = ChatsIndexLazyImport.update({
   path: '/chats/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/chats/index.lazy').then((d) => d.Route))
+
+const ProfileIndexRoute = ProfileIndexImport.update({
+  path: '/profile/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const NotificationsIndexRoute = NotificationsIndexImport.update({
   path: '/notifications/',
@@ -88,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsIndexImport
       parentRoute: typeof rootRoute
     }
+    '/profile/': {
+      id: '/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/chats/': {
       id: '/chats/'
       path: '/chats'
@@ -125,6 +138,7 @@ export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   HomeIndexRoute,
   NotificationsIndexRoute,
+  ProfileIndexRoute,
   ChatsIndexLazyRoute,
   LoginIndexLazyRoute,
   SignupIndexLazyRoute,

@@ -58,9 +58,11 @@ const Footer = () => {
               </IconButton>
             </Link>
 
-            <IconButton color="inherit" sx={{ fontSize: 'inherit' }}>
-              <PersonIcon fontSize="inherit" sx={{ color: '#000' }} />
-            </IconButton>
+            <Link to="/profile">
+              <IconButton color="inherit" sx={{ fontSize: 'inherit' }}>
+                <PersonIcon fontSize="inherit" sx={{ color: '#000' }} />
+              </IconButton>
+            </Link>
           </>
         )}
       </Toolbar>

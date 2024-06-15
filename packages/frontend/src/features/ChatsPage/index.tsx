@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 
-import { type Chat, fetchChats } from '../../api/chats';
+import { type ChatInfo, fetchChats } from '../../api/chats';
 import FullScreenLoader from '../Loader/FullScreenLoader';
 import ChatItem from './ChatItem';
 
@@ -10,7 +10,7 @@ function ChatsPage() {
     data: chats = [],
     isLoading,
     error,
-  } = useQuery<Chat[]>({
+  } = useQuery<ChatInfo[]>({
     queryKey: ['chats'],
     queryFn: fetchChats,
   });
@@ -42,7 +42,8 @@ function ChatsPage() {
         <ChatItem
           key={chat._id}
           name={`${chat.matchedUser.firstName} ${chat.matchedUser.lastName}`}
-          lastMessage={chat.latestMessage || 'No messages yet'}
+          lastMessage={chat.latestMessage}
+          profilePic={chat.matchedUser.profilePic}
           to={`/chats/${chat._id}`}
         />
       ))}

@@ -68,7 +68,7 @@ authRouter.post(
       lastName = 'Zwi',
       birthDate = new Date(),
       gender = Gender.Woman,
-      genderPreference = [Gender.Man, Gender.Woman, Gender.NonBinary],
+      genderPreference = [Gender.Man, Gender.Woman],
       purpose = UserPurpose.All,
       location = [0, 0],
     } = req.body;

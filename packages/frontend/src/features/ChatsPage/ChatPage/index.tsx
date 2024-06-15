@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 
 import {
-  type Chat as ChatInterface,
+  type ChatInfo,
   fetchChat,
   fetchMessages,
   type Message as MessageInterface,
@@ -25,7 +25,7 @@ function ChatPage({ chatId }: { chatId: string }) {
     data: chat,
     isLoading: isLoadingChat,
     error: chatError,
-  } = useQuery<ChatInterface>({
+  } = useQuery<ChatInfo>({
     queryKey: ['chats', chatId],
     queryFn: () => fetchChat(chatId),
   });
@@ -109,9 +109,13 @@ function ChatPage({ chatId }: { chatId: string }) {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <Avatar sx={{ bgcolor: 'primary.main', width: 40, height: 40 }}>
-            {chat?.matchedUser.firstName.charAt(0)}
-          </Avatar>
+          {chat?.matchedUser.profilePic ? (
+            <Avatar sx={{ width: 40, height: 40 }} src={chat.matchedUser.profilePic} />
+          ) : (
+            <Avatar sx={{ bgcolor: 'primary.main', width: 40, height: 40 }}>
+              {chat?.matchedUser.firstName.charAt(0)}
+            </Avatar>
+          )}
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
             {chat?.matchedUser.firstName} {chat?.matchedUser.lastName}
           </Typography>

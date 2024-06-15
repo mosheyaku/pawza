@@ -1,3 +1,5 @@
+import type mongoose from 'mongoose';
+
 import { type Gender, type UserDoc, UserModel, type UserPurpose } from '../models/user.js';
 import { hashPassword } from './auth.js';
 
@@ -33,3 +35,6 @@ export const createNewUser = async (params: {
 };
 
 export const userExists = async (email: string) => await UserModel.exists({ email });
+
+export const changeProfileImage = async (userId: mongoose.Types.ObjectId, fileUri: string) =>
+  await UserModel.updateOne({ _id: userId }, { $set: { 'photos.0': fileUri } });

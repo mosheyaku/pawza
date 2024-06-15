@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 
 interface ImageCardProps {
   name: string;
@@ -9,8 +9,8 @@ interface ImageCardProps {
 
 function ImageCard({ name, age, description, image }: ImageCardProps) {
   return (
-    <Box position="relative" borderRadius="2rem">
-      <img style={{ borderRadius: '2rem', width: '100%' }} src={image} draggable={false} />
+    <Box position="relative" borderRadius="2rem" height="100%">
+      <Avatar style={{ borderRadius: '2rem', width: '100%', height: '100%' }} src={image} draggable={false} />
       <Box
         py="0.5rem"
         position="absolute"

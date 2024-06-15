@@ -9,7 +9,6 @@ export enum UserPurpose {
 export enum Gender {
   Man = 'man',
   Woman = 'woman',
-  NonBinary = 'nonbinary',
 }
 
 const userSchema = new mongoose.Schema(

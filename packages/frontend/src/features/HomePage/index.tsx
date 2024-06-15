@@ -98,12 +98,20 @@ function Home() {
   }
 
   return (
-    <Box py={4} display="flex" flexDirection="column" justifyContent="center" boxSizing="border-box" height="100%">
+    <Box py={4} display="flex" flexDirection="column" justifyContent="center" boxSizing="border-box">
       {suggested ? (
         <>
-          <Box position="relative" overflow="hidden" py={4}>
+          <Box position="relative" overflow="hidden" py={4} sx={{ aspectRatio: 1 }}>
             {nextSuggestion && (
-              <Box zIndex={0} position="absolute" px={4} lineHeight={0}>
+              <Box
+                zIndex={0}
+                position="absolute"
+                p={4}
+                lineHeight={0}
+                height="100%"
+                width="100%"
+                boxSizing="border-box"
+              >
                 <ImageCard
                   image={nextSuggestion.photo}
                   age={nextSuggestion.age}
@@ -113,14 +121,14 @@ function Home() {
               </Box>
             )}
 
-            <Box px={4}>
+            <Box p={4} height="100%">
               <TinderCard ref={topCard} onCardLeftScreen={onCardLeftScreen} preventSwipe={['up', 'down']}>
                 <ImageCard image={suggested.photo} age={suggested.age} description="" name={suggested.firstName} />
               </TinderCard>
             </Box>
           </Box>
 
-          <Box display="flex" flexDirection="row" justifyContent="space-between" px={4}>
+          <Box display="flex" flexDirection="row" justifyContent="space-between" px={8} my={4}>
             <PawButton color="red" disabled={isSwiping} onClick={() => swipe('left')} />
             <PawButton color="green" disabled={isSwiping} onClick={() => swipe('right')} />
           </Box>

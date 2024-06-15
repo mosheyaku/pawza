@@ -4,13 +4,13 @@ import { ChatModel, type PopulatedChatDoc } from '../models/chat.js';
 import { MessageModel } from '../models/message.js';
 
 export const getChatById = async (chatId: mongoose.Types.ObjectId): Promise<PopulatedChatDoc | null> =>
-  await ChatModel.findById(chatId).populate<Pick<PopulatedChatDoc, 'users'>>('users', 'firstName lastName');
+  await ChatModel.findById(chatId).populate<Pick<PopulatedChatDoc, 'users'>>('users', 'firstName lastName photos');
 
 // Function to get all matched chats for a user
 export const getMatchedChats = async (userId: mongoose.Types.ObjectId): Promise<PopulatedChatDoc[]> => {
   const chats = await ChatModel.find({
     users: userId,
-  }).populate<Pick<PopulatedChatDoc, 'users'>>('users', 'firstName lastName');
+  }).populate<Pick<PopulatedChatDoc, 'users'>>('users', 'firstName lastName photos');
 
   return chats;
 };

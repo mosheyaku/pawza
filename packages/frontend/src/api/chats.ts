@@ -8,7 +8,7 @@ export interface Message {
 }
 
 // Define the response interface for chats
-export interface Chat {
+export interface ChatInfo {
   _id: string;
   user: {
     firstName: string;
@@ -17,12 +17,13 @@ export interface Chat {
   matchedUser: {
     firstName: string;
     lastName: string;
+    profilePic?: string;
   };
   latestMessage: string;
 }
 
 // Fetch chats
-export const fetchChats = () => apiClient.get<Chat[]>('/chats').then((response) => response.data);
+export const fetchChats = () => apiClient.get<ChatInfo[]>('/chats').then((response) => response.data);
 
 // Fetch messages for a specific chat
 export const fetchMessages = (chatId: string) =>
@@ -33,4 +34,5 @@ export const sendMessage = (chatId: string, content: string) =>
   apiClient.post<Message>(`/chats/${chatId}/messages`, { content }).then((response) => response.data);
 
 // Fetch current chat information
-export const fetchChat = (chatId: string) => apiClient.get<Chat>(`/chats/${chatId}`).then((response) => response.data);
+export const fetchChat = (chatId: string) =>
+  apiClient.get<ChatInfo>(`/chats/${chatId}`).then((response) => response.data);

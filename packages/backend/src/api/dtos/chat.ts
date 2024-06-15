@@ -11,6 +11,7 @@ export interface ChatDto {
   matchedUser: {
     firstName: string;
     lastName: string;
+    profilePic?: string;
   };
   latestMessage: string;
 }
@@ -28,6 +29,7 @@ export const toChatDto = (chat: PopulatedChatDoc, userId: mongoose.Types.ObjectI
     matchedUser: {
       firstName: matchedUser.firstName,
       lastName: matchedUser.lastName,
+      profilePic: matchedUser.photos[0],
     },
     latestMessage: chat.latestMessage || '',
   };

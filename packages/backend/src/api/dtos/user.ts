@@ -8,6 +8,7 @@ export interface UserDto {
   birthDate: string;
   gender: Gender;
   purpose: UserPurpose;
+  profilePictureSrc: string;
 }
 
 export const toUserDto = (user: UserDoc): UserDto => ({
@@ -18,4 +19,5 @@ export const toUserDto = (user: UserDoc): UserDto => ({
   birthDate: user.birthDate.toISOString(),
   gender: user.gender,
   purpose: user.purpose,
+  profilePictureSrc: user.photos[0],
 });

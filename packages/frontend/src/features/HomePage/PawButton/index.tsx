@@ -1,4 +1,4 @@
-import { IconButton, SvgIcon } from '@mui/material';
+import { IconButton } from '@mui/material';
 import PawSvg from '@src/assets/paw.svg?react';
 import { type ComponentPropsWithRef } from 'react';
 
@@ -13,10 +13,8 @@ function PawButton({
 
   return (
     // TODO: onClick animation
-    <IconButton sx={{ padding: '0.25rem', fontSize: '4rem' }} {...props}>
-      <SvgIcon fontSize="inherit">
-        <PawSvg fill={fill} />;
-      </SvgIcon>
+    <IconButton sx={{ padding: '0.25rem', width: '33%', aspectRatio: 1 }} {...props}>
+      <PawSvg fill={fill} width="100%" height="100%" />
     </IconButton>
   );
 }

@@ -17,7 +17,7 @@ const chatSchema = new mongoose.Schema({
 export type ChatDoc = InferSchemaType<typeof chatSchema> & { _id: mongoose.Types.ObjectId };
 
 export type PopulatedChatDoc = Omit<ChatDoc, 'users'> & {
-  users: Array<Pick<UserDoc, 'firstName' | 'lastName' | '_id'>>;
+  users: Array<Pick<UserDoc, 'firstName' | 'lastName' | 'photos' | '_id'>>;
 };
 
 export const ChatModel = mongoose.model('Chat', chatSchema);
