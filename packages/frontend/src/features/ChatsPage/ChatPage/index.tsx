@@ -54,8 +54,8 @@ function ChatPage({ chatId }: { chatId: string }) {
   }, [messages]);
 
   // Mutation for sending a message
-  const mutation = useMutation({
-    mutationFn: ({ content }: { content: string }) => sendMessage(chatId, content),
+  const { mutateAsync: sendMessageMutation } = useMutation({
+    mutationFn: (content: string) => sendMessage(chatId, content),
   });
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -70,7 +70,8 @@ function ChatPage({ chatId }: { chatId: string }) {
           timestamp: new Date().toISOString(),
         },
       ]);
-      await mutation.mutateAsync({ content: newMessage });
+
+      await sendMessageMutation(newMessage);
     }
   };
 
