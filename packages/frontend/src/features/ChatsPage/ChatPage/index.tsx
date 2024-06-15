@@ -151,6 +151,7 @@ function ChatPage({ chatId }: { chatId: string }) {
         }}
       >
         <TextField
+          autoComplete="off"
           variant="outlined"
           sx={{
             background: 'white',

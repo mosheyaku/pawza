@@ -29,6 +29,7 @@ app.use('/api', indexRouter);
 if (IS_PROD) {
   app.use(express.static(path.resolve(import.meta.dirname, 'public')));
   app.get('*', (req, res) => {
+    res.removeHeader('Content-Security-Policy');
     res.sendFile(path.resolve(import.meta.dirname, './public', 'index.html'));
   });
 }
