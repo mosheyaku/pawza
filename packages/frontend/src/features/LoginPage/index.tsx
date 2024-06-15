@@ -122,6 +122,7 @@ export default function LoginPage() {
               onSelect={() => (handsUp!.value = true)}
             />
             <Button
+              type="submit"
               onClick={() => animationHandle()}
               fullWidth
               variant="contained"
