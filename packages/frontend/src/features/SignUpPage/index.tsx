@@ -4,11 +4,8 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
-import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 
-import { signUp } from '../../api/sign-up';
 import FullScreenLoader from '../Loader/FullScreenLoader';
 import PetDetails, { type PetFields } from './PetDetails';
 import Terms from './TermsAndConditions';
@@ -30,11 +27,11 @@ export default function SignUpPage() {
     birthDate: null as any, // Itamar approved
   });
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const { mutateAsync: signUpMutation, isPending } = useMutation({
-    mutationFn: (data: { email: string; password: string }) => signUp(data),
-  });
+  // const { mutateAsync: signUpMutation, isPending } = useMutation({
+  //   mutationFn: (data: { email: string; password: string }) => signUp(data),
+  // });
 
   const [petDet, setPetDet] = useState<PetFields>({
     size: '',
@@ -48,7 +45,7 @@ export default function SignUpPage() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
     if (activeStep === steps.length - 1) {
-      signUp({});
+      // signUp({});
     }
   };
 
