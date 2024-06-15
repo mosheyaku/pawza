@@ -1,6 +1,6 @@
 #!/bin/bash
 
 cd packages/backend
-kill $(cat pid) || true  # Ignore errors if the process is not running
+ps aux | grep node | grep -v grep | awk '{print $2}' | xargs kill
+sleep 2
 nohup pnpm run prod &
-echo $! > pid
