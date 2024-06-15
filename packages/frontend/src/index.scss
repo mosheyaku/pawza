@@ -34,3 +34,17 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.75);
+  border-radius: 20px;
+  border: transparent;
+}
