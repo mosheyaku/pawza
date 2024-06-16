@@ -19,6 +19,10 @@ const Footer = () => {
     enabled: !!user,
   });
 
+  if (!user) {
+    return null;
+  }
+
   return (
     <AppBar component="footer" position="sticky" sx={{ height: '4rem', background: '#DA940719', boxShadow: 'none' }}>
       <Toolbar
