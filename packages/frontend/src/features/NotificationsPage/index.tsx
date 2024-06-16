@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 
 import { getNotifications } from '../../api/notifications';
@@ -16,6 +16,10 @@ function NotificationsPage() {
 
   return (
     <Box my={1}>
+      <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: '1rem', textAlign: 'center', color: '#333' }}>
+        Notifications
+      </Typography>
+
       {data.map((notification) => (
         <Notification
           key={notification.id}
@@ -25,6 +29,12 @@ function NotificationsPage() {
           read={notification.read}
         />
       ))}
+
+      {data.length === 0 && (
+        <Typography variant="h4" sx={{ marginTop: '3rem', textAlign: 'center', color: '#777' }}>
+          {"You don't have any notifications yet, but when you do, you'll see them here!"}
+        </Typography>
+      )}
     </Box>
   );
 }
