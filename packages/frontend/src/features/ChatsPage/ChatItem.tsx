@@ -1,4 +1,4 @@
-import { Avatar, Card, CardContent, Typography } from '@mui/material';
+import { Avatar, Box, Card, Typography } from '@mui/material';
 import { Link } from '@tanstack/react-router';
 
 export type ChatItemProps = {
@@ -29,17 +29,14 @@ function ChatItem({ profilePic, name, lastMessage, to }: ChatItemProps) {
         },
       }}
     >
-      {profilePic ? (
-        <Avatar
-          sx={{ bgcolor: '#3f51b5', marginRight: '1rem', fontSize: '2rem', width: '64px', height: '64px' }}
-          src={profilePic}
-        />
-      ) : (
-        <Avatar sx={{ bgcolor: '#3f51b5', marginRight: '1rem', fontSize: '2rem', width: '64px', height: '64px' }}>
-          {name.charAt(0)}
-        </Avatar>
-      )}
-      <CardContent sx={{ flex: '1', padding: '0.5rem' }}>
+      <Avatar
+        sx={{ bgcolor: '#3f51b5', marginRight: '1rem', fontSize: '3rem', width: '64px', height: '64px' }}
+        src={profilePic}
+      >
+        {!profilePic && name.charAt(0)}
+      </Avatar>
+
+      <Box sx={{ flex: '1' }}>
         <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', color: '#333' }}>
           {name}
         </Typography>
@@ -59,7 +56,7 @@ function ChatItem({ profilePic, name, lastMessage, to }: ChatItemProps) {
         >
           {lastMessage || 'No messages yet'}
         </Typography>
-      </CardContent>
+      </Box>
     </Card>
   );
 }

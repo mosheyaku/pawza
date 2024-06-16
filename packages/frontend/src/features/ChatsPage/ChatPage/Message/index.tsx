@@ -36,7 +36,7 @@ function Message({ content, timestamp, isCurrentUser }: MessageItemProps) {
         borderStartEndRadius: '1rem',
         borderEndEndRadius: isCurrentUser ? 0 : '1rem',
         borderEndStartRadius: isCurrentUser ? '1rem' : 0,
-        backgroundColor: isCurrentUser ? '#DCF8C6' : '#F0F0F0',
+        backgroundColor: isCurrentUser ? '#DCF8C6' : '#FFF',
         boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
         wordBreak: 'break-word',
       }}

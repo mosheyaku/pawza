@@ -92,7 +92,6 @@ function ChatPage({ chatId }: { chatId: string }) {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: '#fff',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         overflow: 'hidden',
       }}
@@ -100,7 +99,7 @@ function ChatPage({ chatId }: { chatId: string }) {
       <Box
         sx={{
           padding: '1rem',
-          backgroundColor: '#f9f9f9',
+          backgroundColor: '#fff',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -128,7 +127,6 @@ function ChatPage({ chatId }: { chatId: string }) {
           display: 'flex',
           flexDirection: 'column',
           gap: '0.75rem',
-          backgroundColor: '#fff',
           overflowY: 'auto',
         }}
         ref={scrollableAreaRef}
