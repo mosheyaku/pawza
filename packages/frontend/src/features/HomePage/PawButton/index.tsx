@@ -4,6 +4,7 @@ import { type ComponentPropsWithRef } from 'react';
 
 function PawButton({
   color,
+  sx,
   ...props
 }: Omit<ComponentPropsWithRef<typeof IconButton>, 'color'> & { color?: 'green' | 'red' }) {
   let fill = '#00BB55';
@@ -13,7 +14,7 @@ function PawButton({
 
   return (
     // TODO: onClick animation
-    <IconButton sx={{ padding: '0.25rem', width: '33%', aspectRatio: 1 }} {...props}>
+    <IconButton sx={{ padding: '0.25rem', width: '33%', aspectRatio: 1, ...sx }} {...props}>
       <PawSvg fill={fill} width="100%" height="100%" />
     </IconButton>
   );

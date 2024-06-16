@@ -3,7 +3,6 @@ import { apiClient } from './base';
 export enum Gender {
   Man = 'man',
   Woman = 'woman',
-  NonBinary = 'nonbinary',
 }
 
 export enum UserPurpose {

@@ -121,7 +121,12 @@ function Home() {
           </Box>
 
           <Box display="flex" flexDirection="row" justifyContent="space-between" px={8} my={4}>
-            <PawButton color="red" disabled={isSwiping} onClick={() => swipe('left')} />
+            <PawButton
+              color="red"
+              disabled={isSwiping}
+              onClick={() => swipe('left')}
+              sx={{ transform: 'rotate(180deg)' }}
+            />
             <PawButton color="green" disabled={isSwiping} onClick={() => swipe('right')} />
           </Box>
         </>
