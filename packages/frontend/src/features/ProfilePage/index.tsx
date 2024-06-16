@@ -7,8 +7,7 @@ import { uploadProfileImage } from '../../api/profile';
 import { useAuth } from '../Auth/useAuth';
 
 export default function ProfilePage() {
-  const { user } = useAuth();
-  const [profilePicSrc, setProfilePicSrc] = useState(user!.profilePictureSrc);
+  const { user, setUser } = useAuth();
 
   const [alertMessage, setAlertMessage] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -25,7 +24,10 @@ export default function ProfilePage() {
 
       const res = await uploadProfileImageMutation(file);
 
-      setProfilePicSrc(res.data.filename);
+      setUser({
+        ...user!,
+        profilePictureSrc: res.data.filename,
+      });
 
       // Reset file input
       event.target.value = '';
@@ -55,7 +57,7 @@ export default function ProfilePage() {
           disabled={isPending}
         >
           <Avatar
-            src={profilePicSrc}
+            src={user?.profilePictureSrc}
             alt="Profile Picture"
             style={{
               width: '100%',
