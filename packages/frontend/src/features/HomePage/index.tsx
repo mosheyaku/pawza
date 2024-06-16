@@ -137,15 +137,7 @@ function Home() {
             </Box>
           </Box>
 
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-            my={4}
-            sx={{
-              px: 'max(16px, min(25vw, 475px - 50vh))',
-            }}
-          >
+          <Box display="flex" flexDirection="row" justifyContent="space-between" my={4} px={2}>
             <PawButton
               color="red"
               disabled={isSwiping}
