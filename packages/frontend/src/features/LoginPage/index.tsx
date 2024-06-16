@@ -83,7 +83,7 @@ export default function LoginPage() {
 
   // TODO: If error, handle it (show message or something)
   return (
-    <Container maxWidth="xs" sx={{ py: '12lvh' }}>
+    <Container maxWidth="xs" sx={{ pt: '12lvh' }}>
       {showLoader ? (
         <FullScreenLoader />
       ) : (
