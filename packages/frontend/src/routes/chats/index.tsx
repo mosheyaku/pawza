@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 
 import AuthenticatedRoute from '../../features/AuthenticatedRoute';
 import ChatsPage from '../../features/ChatsPage';
@@ -8,7 +8,7 @@ function Index() {
   return <ChatsPage />;
 }
 
-export const Route = createLazyFileRoute('/chats/')({
+export const Route = createFileRoute('/chats/')({
   component: AuthenticatedRoute(Index),
   pendingComponent: FullScreenLoader,
 });

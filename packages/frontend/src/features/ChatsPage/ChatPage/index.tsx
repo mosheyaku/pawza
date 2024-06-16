@@ -92,6 +92,7 @@ function ChatPage({ chatId }: { chatId: string }) {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        backgroundColor: '#fff',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         overflow: 'hidden',
       }}
@@ -104,7 +105,7 @@ function ChatPage({ chatId }: { chatId: string }) {
           justifyContent: 'space-between',
           alignItems: 'center',
           borderBottom: '1px solid #e0e0e0',
-          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>

@@ -1,4 +1,4 @@
-import { createLazyFileRoute, Navigate } from '@tanstack/react-router';
+import { createFileRoute, Navigate } from '@tanstack/react-router';
 
 import { useAuth } from '../../features/Auth/useAuth';
 import FullScreenLoader from '../../features/Loader/FullScreenLoader';
@@ -14,7 +14,7 @@ function Index() {
   return <LoginPage />;
 }
 
-export const Route = createLazyFileRoute('/login/')({
+export const Route = createFileRoute('/login/')({
   component: Index,
   pendingComponent: FullScreenLoader,
 });

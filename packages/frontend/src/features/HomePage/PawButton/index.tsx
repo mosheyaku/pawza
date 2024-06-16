@@ -14,7 +14,7 @@ function PawButton({
 
   return (
     // TODO: onClick animation
-    <IconButton sx={{ padding: '0.25rem', width: '33%', aspectRatio: 1, ...sx }} {...props}>
+    <IconButton sx={{ padding: '0.25rem', width: 'min(33%, 26vw, 15vh)', aspectRatio: 1, ...sx }} {...props}>
       <PawSvg fill={fill} width="100%" height="100%" />
     </IconButton>
   );

@@ -1,4 +1,4 @@
-import { createLazyFileRoute, useParams } from '@tanstack/react-router';
+import { createFileRoute, useParams } from '@tanstack/react-router';
 
 import AuthenticatedRoute from '../../../features/AuthenticatedRoute';
 import ChatPage from '../../../features/ChatsPage/ChatPage';
@@ -19,7 +19,7 @@ function Index() {
 
 const AuthenticatedIndex = AuthenticatedRoute(Index);
 
-export const Route = createLazyFileRoute('/chats/$chatId/')({
+export const Route = createFileRoute('/chats/$chatId/')({
   component: AuthenticatedIndex,
   pendingComponent: FullScreenLoader,
 });

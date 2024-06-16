@@ -1,4 +1,5 @@
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import EditIcon from '@mui/icons-material/Edit';
 import { Alert, Avatar, Box, Button, Snackbar, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
@@ -76,12 +77,21 @@ export default function ProfilePage() {
                 transform: 'translate(-50%, -100%)',
               }}
             >
-              <AddPhotoAlternateIcon
-                style={{
-                  color: '#fff',
-                  fontSize: '3rem',
-                }}
-              />
+              {user?.profilePictureSrc ? (
+                <EditIcon
+                  style={{
+                    color: '#fff',
+                    fontSize: '3rem',
+                  }}
+                />
+              ) : (
+                <AddPhotoAlternateIcon
+                  style={{
+                    color: '#fff',
+                    fontSize: '3rem',
+                  }}
+                />
+              )}
             </Box>
           )}
         </Button>
