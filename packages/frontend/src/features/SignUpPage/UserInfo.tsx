@@ -189,8 +189,8 @@ export default function UserInfo({ setUserInfo, changeState, initialState }: Use
                     }}
                     error={wasGenderPreferenceChanged && genderPreference.length === 0}
                   >
-                    <MenuItem value={Gender.Man}>Male</MenuItem>
-                    <MenuItem value={Gender.Woman}>Female</MenuItem>
+                    <MenuItem value={Gender.Man}>Man</MenuItem>
+                    <MenuItem value={Gender.Woman}>Woman</MenuItem>
                     <MenuItem value={'dontcare'}>{"Don't Care"}</MenuItem>
                   </TextField>
                 </FormControl>
