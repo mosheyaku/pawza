@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { type ChatInfo, fetchChats } from '../../api/chats';
 import FullScreenLoader from '../Loader/FullScreenLoader';
+import ChatItem from './ChatItem';
 
 function ChatsPage() {
   const {
@@ -36,7 +37,7 @@ function ChatsPage() {
       <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: '1rem', textAlign: 'center', color: '#333' }}>
         Chats
       </Typography>
-      {/* {chats.map((chat) => (
+      {chats.map((chat) => (
         <ChatItem
           key={chat._id}
           name={`${chat.matchedUser.firstName} ${chat.matchedUser.lastName}`}
@@ -44,9 +45,9 @@ function ChatsPage() {
           profilePic={chat.matchedUser.profilePic}
           to={`/chats/${chat._id}`}
         />
-      ))} */}
-      {chats.length !== 0 && (
-        <Typography variant="h6" sx={{ marginTop: '3rem', textAlign: 'center', color: '#777' }}>
+      ))}
+      {chats.length === 0 && (
+        <Typography variant="h4" sx={{ marginTop: '3rem', textAlign: 'center', color: '#777' }}>
           {"You don't have any matches yet, but when you do, you could chat with them here!"}
         </Typography>
       )}
