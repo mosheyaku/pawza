@@ -117,7 +117,7 @@ function Home() {
                 position="absolute"
                 p={4}
                 lineHeight={0}
-                width="100%"
+                height="100%"
                 boxSizing="border-box"
                 sx={{ aspectRatio: 1 }}
               >
