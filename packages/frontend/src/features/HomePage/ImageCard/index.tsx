@@ -10,7 +10,11 @@ interface ImageCardProps {
 function ImageCard({ name, age, description, image }: ImageCardProps) {
   return (
     <Box position="relative" borderRadius="2rem" height="100%">
-      <Avatar style={{ borderRadius: '2rem', width: '100%', height: '100%' }} src={image} draggable={false} />
+      <Avatar
+        style={{ borderRadius: '2rem', width: '100%', height: '100%', pointerEvents: 'none' }}
+        src={image}
+        draggable={false}
+      />
       <Box
         py="0.5rem"
         position="absolute"
