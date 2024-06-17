@@ -15,14 +15,6 @@ import { login as loginApiCall } from '../../api/login';
 import { useAuth } from '../Auth/useAuth';
 import FullScreenLoader from '../Loader/FullScreenLoader';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      Copyright © Pawza {new Date().getFullYear()}.
-    </Typography>
-  );
-}
-
 export default function LoginPage() {
   const { rive, RiveComponent } = useRive({
     src: 'login_screen_character.riv',
@@ -135,7 +127,6 @@ export default function LoginPage() {
           </Box>
         </Box>
       )}
-      <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
   );
 }

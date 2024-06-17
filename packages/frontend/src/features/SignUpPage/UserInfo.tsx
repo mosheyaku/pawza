@@ -1,9 +1,7 @@
-import { FormControl, MenuItem } from '@mui/material';
+import { Button, CircularProgress, FormControl, MenuItem } from '@mui/material';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Link } from '@tanstack/react-router';
@@ -12,15 +10,33 @@ import { useEffect, useState } from 'react';
 
 import { Gender, UserPurpose } from '../../api/me';
 
+export interface UserLocation {
+  latitude: number;
+  longitude: number;
+}
+
 export interface UserFields {
   firstName: string;
   lastName: string;
+  gender: Gender | '';
+  genderPreference: Gender | 'dontcare' | '';
+  purpose: UserPurpose | '';
+  email: string;
+  password: string;
+  birthDate: Date | null;
+  location: UserLocation | null;
+}
+
+export interface NonNullUserFields {
+  firstName: string;
+  lastName: string;
   gender: Gender;
-  genderPreference: Gender | 'dontcare';
+  genderPreference: Gender;
   purpose: UserPurpose;
   email: string;
   password: string;
   birthDate: Date;
+  location: UserLocation;
 }
 
 type SetUserInfoState = (x: UserFields) => void;
@@ -28,19 +44,20 @@ type SetFillState = (x: boolean) => void;
 
 interface UserProps {
   setUserInfo: SetUserInfoState;
-  changeState: SetFillState;
+  setUserFill: SetFillState;
   initialState: UserFields;
 }
 
-export default function UserInfo({ setUserInfo, changeState, initialState }: UserProps) {
+export default function UserInfo({ setUserInfo, setUserFill, initialState }: UserProps) {
   const [firstName, setFirstName] = useState(initialState.firstName);
   const [lastName, setLastName] = useState(initialState.lastName);
   const [gender, setGender] = useState<Gender | ''>(initialState.gender);
-  const [genderPreference, setGenderPreference] = useState<Gender | 'dontcare'>(initialState.genderPreference);
+  const [genderPreference, setGenderPreference] = useState<Gender | '' | 'dontcare'>(initialState.genderPreference);
   const [purpose, setPurpose] = useState<UserPurpose | ''>(initialState.purpose);
   const [email, setEmail] = useState(initialState.email);
   const [password, setPassword] = useState(initialState.password);
   const [birthDate, setBirthDate] = useState<Date | null>(initialState.birthDate);
+  const [location, setLocation] = useState<UserLocation | null>(initialState.location);
 
   const [wasFirstNameChanged, setWasFirstNameChanged] = useState(false);
   const [wasLastNameChanged, setWasLastNameChanged] = useState(false);
@@ -52,6 +69,7 @@ export default function UserInfo({ setUserInfo, changeState, initialState }: Use
 
   const [emailHasError, setEmailHasError] = useState(false);
   const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
+  const [gettingLocation, setGettingLocation] = useState(false);
 
   const onEmailChange = (val: string) => {
     // don't remember from where i copied this code, but this works.
@@ -88,8 +106,8 @@ export default function UserInfo({ setUserInfo, changeState, initialState }: Use
   };
 
   useEffect(() => {
-    if (firstName && lastName && gender && genderPreference && purpose && email && password && birthDate) {
-      changeState(true);
+    if (firstName && lastName && gender && genderPreference && purpose && email && password && birthDate && location) {
+      setUserFill(true);
       setUserInfo({
         firstName,
         lastName,
@@ -99,22 +117,72 @@ export default function UserInfo({ setUserInfo, changeState, initialState }: Use
         email,
         password,
         birthDate: new Date(birthDate),
+        location,
       });
     } else {
-      changeState(false);
+      setUserFill(false);
     }
-  }, [firstName, lastName, gender, genderPreference, purpose, email, password, birthDate, changeState, setUserInfo]);
+  }, [
+    firstName,
+    lastName,
+    gender,
+    genderPreference,
+    purpose,
+    email,
+    password,
+    birthDate,
+    location,
+    setUserFill,
+    setUserInfo,
+  ]);
 
-  function Copyright(props: any) {
-    return (
-      <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        Copyright © Pawza {new Date().getFullYear()}.
-      </Typography>
-    );
-  }
+  const requestLocation = async () => {
+    if (!navigator.geolocation) return;
+
+    try {
+      const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
+
+      if (permissionStatus.state === 'granted') {
+        setGettingLocation(true);
+        navigator.geolocation.getCurrentPosition(
+          ({ coords }) => {
+            setGettingLocation(false);
+            setLocation({
+              latitude: coords.latitude,
+              longitude: coords.longitude,
+            });
+          },
+          () => {
+            setGettingLocation(false);
+            window.alert('There was an error getting your location');
+          },
+        );
+      } else if (permissionStatus.state === 'prompt') {
+        setGettingLocation(true);
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setGettingLocation(false);
+            setLocation({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          () => {
+            setGettingLocation(false);
+            window.alert('You must grant location access in order to create an account');
+          },
+        );
+      } else {
+        // Permission denied or not available
+        window.alert('There was an error getting your location, please refresh the page to try again');
+      }
+    } catch (error) {
+      window.alert('There was an error getting your location, please refresh the page to try again');
+    }
+  };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Box>
       <Box
         sx={{
           marginTop: 1,
@@ -217,7 +285,6 @@ export default function UserInfo({ setUserInfo, changeState, initialState }: Use
                 </FormControl>
               </Box>
             </Grid>
-
             <Grid item xs={12}>
               <TextField
                 required
@@ -258,7 +325,7 @@ export default function UserInfo({ setUserInfo, changeState, initialState }: Use
                 </>
               }
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="Birth Date"
@@ -269,15 +336,31 @@ export default function UserInfo({ setUserInfo, changeState, initialState }: Use
                 />
               </LocalizationProvider>
             </Grid>
+            {location ? (
+              <Grid item xs={12}>
+                <Button variant="contained" sx={{ textTransform: 'none' }} disabled>
+                  Location access granted ✅
+                </Button>
+              </Grid>
+            ) : (
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  sx={{ textTransform: 'none' }}
+                  disabled={gettingLocation}
+                  onClick={requestLocation}
+                >
+                  {gettingLocation ? <CircularProgress size="1.5rem" /> : 'Grant location access'}
+                </Button>
+              </Grid>
+            )}
           </Grid>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link to="/login">{'Already have an account? Log in'}</Link>
-            </Grid>
+
+          <Grid item mt={2}>
+            <Link to="/login">{'Already have an account? Log in'}</Link>
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 5 }} />
-    </Container>
+    </Box>
   );
 }

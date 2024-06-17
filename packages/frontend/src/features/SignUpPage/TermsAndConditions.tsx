@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Box, Checkbox, FormControlLabel } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -49,7 +49,7 @@ export default function Terms({ checkChange, checkState }: TermsProps) {
   };
 
   return (
-    <>
+    <Box>
       <Button
         onClick={() => {
           setOpen(true);
@@ -89,6 +89,6 @@ export default function Terms({ checkChange, checkState }: TermsProps) {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 }

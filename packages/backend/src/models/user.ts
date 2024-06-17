@@ -29,8 +29,15 @@ const userSchema = new mongoose.Schema(
     purpose: { type: String, required: true, enum: Object.values(UserPurpose) },
     // From the docs - https://mongoosejs.com/docs/geojson.html
     location: {
-      type: { type: String },
-      coordinates: { type: [Number] },
+      type: {
+        type: String, // Don't do `{ location: { type: String } }`
+        enum: ['Point'], // 'location.type' must be 'Point'
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+      },
     },
     // Array of urls
     photos: {

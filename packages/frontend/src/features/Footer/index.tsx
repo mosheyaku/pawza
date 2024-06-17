@@ -4,7 +4,7 @@ import {
   Notifications as NotificationsIcon,
   Person as PersonIcon,
 } from '@mui/icons-material';
-import { AppBar, Badge, IconButton, Toolbar } from '@mui/material';
+import { AppBar, Badge, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 
@@ -20,7 +20,13 @@ const Footer = () => {
   });
 
   if (!user) {
-    return null;
+    return (
+      <Box mb={2}>
+        <Typography variant="body2" color="text.secondary" align="center">
+          Copyright © Pawza {new Date().getFullYear()}.
+        </Typography>
+      </Box>
+    );
   }
 
   return (

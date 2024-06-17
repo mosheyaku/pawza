@@ -62,13 +62,12 @@ authRouter.post(
     const {
       email,
       password,
-      // TODO: Remove fallback values when sign up is complete
-      firstName = 'Itamar',
-      lastName = 'Zwi',
-      birthDate = new Date(),
-      gender = Gender.Woman,
-      genderPreference = [Gender.Man, Gender.Woman],
-      purpose = UserPurpose.All,
+      firstName,
+      lastName,
+      birthDate,
+      gender,
+      genderPreference,
+      purpose,
       location = [0, 0],
     } = req.body;
 

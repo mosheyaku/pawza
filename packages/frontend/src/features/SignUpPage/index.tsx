@@ -8,12 +8,12 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 
-import { Gender, type UserPurpose } from '../../api/me';
+import { Gender } from '../../api/me';
 import { signUp, type SignUpData } from '../../api/sign-up';
 import FullScreenLoader from '../Loader/FullScreenLoader';
 import PetDetails, { type PetFields } from './PetDetails';
 import Terms from './TermsAndConditions';
-import UserInfo, { type UserFields } from './UserInfo';
+import UserInfo, { type NonNullUserFields, type UserFields } from './UserInfo';
 
 const steps = ['User Details', 'Pet Details', 'Terms & Conditions'];
 
@@ -26,12 +26,13 @@ export default function SignUpPage() {
   const [userInfo, setUserInfo] = useState<UserFields>({
     firstName: '',
     lastName: '',
-    gender: '' as Gender,
-    genderPreference: '' as Gender,
-    purpose: '' as UserPurpose,
+    gender: '',
+    genderPreference: '',
+    purpose: '',
     email: '',
     password: '',
-    birthDate: null as any, // Itamar approved
+    birthDate: null, // Itamar approved
+    location: null,
   });
 
   const navigate = useNavigate();
@@ -54,9 +55,10 @@ export default function SignUpPage() {
     } else {
       // TODO: Add pet info to here
       await signUpMutation({
-        ...userInfo,
+        ...(userInfo as NonNullUserFields),
         genderPreference:
-          userInfo.genderPreference === 'dontcare' ? [Gender.Man, Gender.Woman] : [userInfo.genderPreference],
+          userInfo.genderPreference === 'dontcare' ? [Gender.Man, Gender.Woman] : [userInfo.genderPreference as Gender],
+        location: [userInfo.location!.latitude, userInfo.location!.longitude],
       });
       navigate({ to: '/home' });
     }
@@ -79,7 +81,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <Box sx={{ width: '100%', py: '6lvh' }}>
+    <Box sx={{ width: '100%', py: '6lvh', px: 2, boxSizing: 'border-box' }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label) => (
           <Step key={label}>
@@ -94,7 +96,7 @@ export default function SignUpPage() {
           <Typography sx={{ mt: 2, mb: 1 }}>{steps[activeStep]}</Typography>
           <Box>
             {activeStep === 0 && (
-              <UserInfo initialState={userInfo} setUserInfo={setUserInfo} changeState={setUserFill} />
+              <UserInfo initialState={userInfo} setUserInfo={setUserInfo} setUserFill={setUserFill} />
             )}
 
             {activeStep === 1 && (
@@ -107,13 +109,19 @@ export default function SignUpPage() {
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             {activeStep !== 0 && (
-              <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+              <Button
+                variant="contained"
+                color="inherit"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+              >
                 Back
               </Button>
             )}
 
             <Box sx={{ flex: '1 1 auto' }} />
-            <Button disabled={shouldDisableContinueButton()} onClick={handleNext}>
+            <Button variant="contained" disabled={shouldDisableContinueButton()} onClick={handleNext}>
               {activeStep === steps.length - 1 ? 'Sign Up' : 'Next'}
             </Button>
           </Box>

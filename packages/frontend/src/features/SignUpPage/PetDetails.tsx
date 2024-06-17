@@ -1,6 +1,4 @@
-import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
@@ -56,16 +54,8 @@ export default function PetDetails({ changeState, changePetState, petDetails }: 
     }
   }, [petName, breed, vaccinated, size, petDob, changeState, changePetState]);
 
-  function Copyright(props: any) {
-    return (
-      <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        Copyright © Pawza {new Date().getFullYear()}.
-      </Typography>
-    );
-  }
-
   return (
-    <Container component="main" maxWidth="xs">
+    <Box>
       <Box
         sx={{
           marginTop: 1,
@@ -163,7 +153,6 @@ export default function PetDetails({ changeState, changePetState, petDetails }: 
           </Grid>
         </Box>
       </Box>
-      <Copyright sx={{ mt: 5 }} />
-    </Container>
+    </Box>
   );
 }

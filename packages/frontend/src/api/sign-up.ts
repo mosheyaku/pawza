@@ -12,6 +12,7 @@ export interface SignUpData {
   gender: Gender;
   genderPreference: Gender[];
   purpose: UserPurpose;
+  location: [number, number];
 }
 
 export const signUp = (data: SignUpData) => apiClient.post('/auth/sign-up', data);

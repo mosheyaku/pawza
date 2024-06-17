@@ -27,7 +27,10 @@ export const createNewUser = async (params: {
     gender,
     genderPreference,
     purpose,
-    location,
+    location: {
+      type: 'Point',
+      coordinates: location,
+    },
     photos: [],
   });
 
