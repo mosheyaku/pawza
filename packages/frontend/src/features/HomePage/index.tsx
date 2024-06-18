@@ -96,6 +96,7 @@ function Home() {
         flexDirection: 'column',
         justifyContent: 'center',
         boxSizing: 'border-box',
+        overflowY: 'hidden',
         height: '100%',
         p: 4,
       }}
