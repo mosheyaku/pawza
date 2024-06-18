@@ -60,7 +60,7 @@ export default function Terms({ checkChange, checkState }: TermsProps) {
       </Button>
 
       <Dialog open={open} onClose={() => setOpen(false)} scroll="paper">
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Terms And Conditions</DialogTitle>
 
         <DialogContent dividers={true}>
           <DialogContentText ref={descriptionElementRef} tabIndex={-1}>
