@@ -89,6 +89,10 @@ function Home() {
     return <FullScreenLoader />;
   }
 
+  if (potentialMatches && potentialMatches.length !== 0 && suggestions.length === 0) {
+    return null;
+  }
+
   return (
     <Box
       sx={{
