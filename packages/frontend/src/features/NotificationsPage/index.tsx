@@ -27,6 +27,7 @@ function NotificationsPage() {
           title={notification.title}
           content={notification.content}
           read={notification.read}
+          image={notification.image}
         />
       ))}
 
