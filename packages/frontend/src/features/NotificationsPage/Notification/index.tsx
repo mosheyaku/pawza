@@ -43,7 +43,7 @@ function Notification({ id, content, read, title, image }: NotificationProps) {
     >
       <Box display="flex" width="100%" alignItems="center" textAlign="left">
         {isNew && <CircleIcon color="primary" style={{ marginRight: '0.5rem', fontSize: '0.5rem' }} />}
-        {image && <Avatar src={`data:image/png;base64,${image}`} style={{ marginRight: '0.5rem' }} />}
+        {image && <Avatar src={image} style={{ marginRight: '0.5rem' }} />}
         <Box>
           <Typography variant="subtitle1">{title}</Typography>
           <Typography variant="body2" color="textSecondary">
