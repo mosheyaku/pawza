@@ -82,14 +82,14 @@ export default function ProfilePage() {
                   <EditIcon
                     style={{
                       color: '#fff',
-                      fontSize: '3rem',
+                      fontSize: '1.5rem',
                     }}
                   />
                 ) : (
                   <AddPhotoAlternateIcon
                     style={{
                       color: '#fff',
-                      fontSize: '3rem',
+                      fontSize: '1.5rem',
                     }}
                   />
                 )}
