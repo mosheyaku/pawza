@@ -96,7 +96,7 @@ function Home() {
         flexDirection: 'column',
         justifyContent: 'center',
         boxSizing: 'border-box',
-        overflowY: 'hidden',
+        overflow: 'hidden',
         height: '100%',
         p: 4,
       }}
@@ -106,7 +106,6 @@ function Home() {
           <Box
             sx={{
               position: 'relative',
-              overflow: 'hidden',
               display: 'flex',
               justifyContent: 'center',
               aspectRatio: 1,
@@ -116,7 +115,7 @@ function Home() {
               <Box
                 zIndex={0}
                 position="absolute"
-                p={4}
+                p={2}
                 lineHeight={0}
                 height="100%"
                 boxSizing="border-box"
