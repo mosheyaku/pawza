@@ -298,6 +298,7 @@ export default React.forwardRef<any, any>(
         background: '#f0f0f0',
         borderRadius: '2rem',
         position: 'relative',
+        zIndex: 1,
       },
       children,
     });
