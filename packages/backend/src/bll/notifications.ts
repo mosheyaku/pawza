@@ -14,7 +14,7 @@ export const getUnreadNotificationsCount = async (userId: mongoose.Types.ObjectI
 };
 
 export const getNotifications = async (userId: mongoose.Types.ObjectId) =>
-  await NotificationModel.find({ user: userId }).sort({ read: 1 }).limit(50);
+  await NotificationModel.find({ user: userId }).sort({ createdAt: -1 }).limit(50);
 
 export const markNotificationAsRead = async (id: mongoose.Types.ObjectId) =>
   await NotificationModel.updateOne({ _id: id }, { $set: { read: true } });
