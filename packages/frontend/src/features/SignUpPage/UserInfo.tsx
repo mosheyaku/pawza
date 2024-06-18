@@ -319,9 +319,13 @@ export default function UserInfo({ setUserInfo, setUserFill, initialState }: Use
                     error={wasPasswordChanged && (password === '' || passwordErrors.length !== 0)}
                   />
 
-                  {passwordErrors.map((error) => (
-                    <p key={error}>{error}</p>
-                  ))}
+                  {password.length > 0 && (
+                    <ul style={{ paddingLeft: '1rem' }}>
+                      {passwordErrors.map((error) => (
+                        <li key={error}>{error}</li>
+                      ))}
+                    </ul>
+                  )}
                 </>
               }
             </Grid>
