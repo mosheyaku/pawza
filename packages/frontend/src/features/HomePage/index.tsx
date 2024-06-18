@@ -149,7 +149,10 @@ function Home() {
           </Box>
         </>
       ) : (
-        <Typography>{"We're all out of matches, try again tomorrow! 🐶"}</Typography>
+        <Typography variant="h5" color="#444">
+          {"We're all out of matches,"}
+          <br /> try again tomorrow! 🐶
+        </Typography>
       )}
     </Box>
   );
