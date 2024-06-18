@@ -30,7 +30,7 @@ function ChatItem({ profilePic, name, lastMessage, to }: ChatItemProps) {
       }}
     >
       <Avatar
-        sx={{ bgcolor: '#3f51b5', marginRight: '1rem', fontSize: '3rem', width: '64px', height: '64px' }}
+        sx={{ bgcolor: '#3f51b5', marginRight: '1rem', fontSize: '2.5rem', width: '56px', height: '56px' }}
         src={profilePic}
       >
         {!profilePic && name.charAt(0)}
