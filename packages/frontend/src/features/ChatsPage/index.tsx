@@ -26,7 +26,6 @@ function ChatsPage() {
     <Box
       sx={{
         width: '100%',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         padding: '1rem',
         height: '100%', // Adjust to fill the parent container
         overflowY: 'auto', // Allows inner box to scroll
