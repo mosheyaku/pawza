@@ -17,10 +17,17 @@ export const getMatchedChats = async (userId: mongoose.Types.ObjectId): Promise<
 
 // Function to create a new chat
 export const createChat = async (userId1: mongoose.Types.ObjectId, userId2: mongoose.Types.ObjectId) => {
-  const newChat = new ChatModel({
-    users: [userId1, userId2],
+  const chatAlreadyExists = await ChatModel.exists({
+    users: {
+      $all: [userId1, userId2],
+    },
   });
 
+  if (chatAlreadyExists) {
+    return;
+  }
+
+  const newChat = new ChatModel({ users: [userId1, userId2] });
   await newChat.save();
 };
 

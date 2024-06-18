@@ -40,6 +40,10 @@ export const getPotentialMatches = async (
 };
 
 export const acceptPotentialMatch = async (user: mongoose.Types.ObjectId, suggestedUser: mongoose.Types.ObjectId) => {
+  if (await PotentialMatchModel.exists({ user, suggestedUser, status: PotentialMatchStatus.Accepted })) {
+    return;
+  }
+
   await PotentialMatchModel.updateOne(
     { user, suggestedUser },
     { $set: { status: PotentialMatchStatus.Accepted } },

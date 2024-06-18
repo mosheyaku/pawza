@@ -23,6 +23,16 @@ export const createYouWereLikedNotification = async (
   userId: mongoose.Types.ObjectId,
   pawedBy: mongoose.Types.ObjectId,
 ) => {
+  const notificationAlreadyExists = await NotificationModel.exists({
+    user: userId,
+    type: NotificationType.YouWereLiked,
+    'pawedBy._id': pawedBy,
+  });
+
+  if (notificationAlreadyExists) {
+    return;
+  }
+
   const pawedByUser = await UserModel.findById(pawedBy);
 
   const notification = new NotificationModel({
