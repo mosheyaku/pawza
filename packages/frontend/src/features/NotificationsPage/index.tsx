@@ -15,7 +15,7 @@ function NotificationsPage() {
   if (error || !data) return <Box>Error loading notifications</Box>;
 
   return (
-    <Box my={1}>
+    <Box sx={{ py: '1rem' }}>
       <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: '1rem', textAlign: 'center', color: '#333' }}>
         Notifications
       </Typography>
