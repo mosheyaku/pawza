@@ -10,10 +10,7 @@ export interface Notification {
   content: string;
   read: boolean;
   image?: string;
-  likedBy?: {
-    id: string;
-    firstName: string;
-  };
+  pawedBy?: string;
 }
 
 export const getUnreadNotificationsCount = () => apiClient.get<number>('/notifications/unread-count');

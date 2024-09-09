@@ -1,6 +1,7 @@
 import CircleIcon from '@mui/icons-material/Circle';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 
 import { markNotificationAsRead } from '../../../api/notifications';
@@ -11,10 +12,12 @@ export interface NotificationProps {
   content: string;
   read: boolean;
   image?: string;
+  pawedBy?: string;
 }
 
-function Notification({ id, content, read, title, image }: NotificationProps) {
+function Notification({ id, content, read, title, image, pawedBy }: NotificationProps) {
   const [isNew, setIsNew] = useState(!read);
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutateAsync: markAsRead } = useMutation({
     mutationFn: () => markNotificationAsRead(id),
@@ -27,6 +30,9 @@ function Notification({ id, content, read, title, image }: NotificationProps) {
   const onClick = async () => {
     if (!read) {
       await markAsRead();
+      if (pawedBy) {
+        await navigate({ to: `/users/${pawedBy}` });
+      }
     }
   };
 

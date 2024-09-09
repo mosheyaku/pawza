@@ -6,10 +6,7 @@ export interface NotificationDto {
   content: string;
   read: boolean;
   image?: string;
-  pawedBy?: {
-    id: string;
-    firstName: string;
-  };
+  pawedBy?: string;
 }
 
 export const toNotificationDto = (notification: NotificationDoc): NotificationDto => {
@@ -29,5 +26,6 @@ export const toNotificationDto = (notification: NotificationDoc): NotificationDt
     content,
     read: notification.read,
     image: notification.image || undefined,
+    pawedBy: notification.pawedBy?._id.toString(),
   };
 };

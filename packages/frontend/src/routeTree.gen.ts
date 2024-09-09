@@ -19,6 +19,7 @@ import { Route as NotificationsIndexImport } from './routes/notifications/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as ChatsIndexImport } from './routes/chats/index'
+import { Route as UsersUserIdIndexImport } from './routes/users/$userId/index'
 import { Route as ChatsChatIdIndexImport } from './routes/chats/$chatId/index'
 
 // Create Virtual Routes
@@ -59,6 +60,11 @@ const HomeIndexRoute = HomeIndexImport.update({
 
 const ChatsIndexRoute = ChatsIndexImport.update({
   path: '/chats/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UsersUserIdIndexRoute = UsersUserIdIndexImport.update({
+  path: '/users/$userId/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -127,6 +133,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatsChatIdIndexImport
       parentRoute: typeof rootRoute
     }
+    '/users/$userId/': {
+      id: '/users/$userId/'
+      path: '/users/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof UsersUserIdIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -141,6 +154,7 @@ export const routeTree = rootRoute.addChildren({
   ProfileIndexRoute,
   SignupIndexRoute,
   ChatsChatIdIndexRoute,
+  UsersUserIdIndexRoute,
 })
 
 /* prettier-ignore-end */
