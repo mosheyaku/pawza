@@ -30,9 +30,10 @@ function Notification({ id, content, read, title, image, pawedBy }: Notification
   const onClick = async () => {
     if (!read) {
       await markAsRead();
-      if (pawedBy) {
-        await navigate({ to: `/users/${pawedBy}` });
-      }
+    }
+
+    if (pawedBy) {
+      await navigate({ to: `/users/${pawedBy}` });
     }
   };
 
