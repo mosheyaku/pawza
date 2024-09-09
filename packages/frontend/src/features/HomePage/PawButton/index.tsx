@@ -33,7 +33,6 @@ function PawButton({
   }
 
   return (
-    // TODO: onClick animation
     <IconButton
       {...props}
       sx={{ width: 'min(33%, 26vw, 15vh)', aspectRatio: 1, position: 'relative', ...sx }}

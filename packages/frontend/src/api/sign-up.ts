@@ -1,8 +1,6 @@
 import { apiClient } from './base';
 import { type Gender, type UserPurpose } from './me';
 
-// TODO: Response interface
-
 export interface SignUpData {
   email: string;
   firstName: string;

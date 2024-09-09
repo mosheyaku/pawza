@@ -1,7 +1,5 @@
 import { apiClient } from './base';
 
-// TODO: Response interface
-
 export interface PotentialMatchDto {
   id: string;
   firstName: string;

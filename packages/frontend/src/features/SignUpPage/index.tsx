@@ -53,7 +53,6 @@ export default function SignUpPage() {
     if (activeStep < steps.length - 1) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
-      // TODO: Add pet info to here
       await signUpMutation({
         ...(userInfo as NonNullUserFields),
         genderPreference:

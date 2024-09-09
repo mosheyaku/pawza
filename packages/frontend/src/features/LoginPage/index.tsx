@@ -84,7 +84,6 @@ export default function LoginPage() {
 
   const showLoader = isPending || (isSuccess && !user);
 
-  // TODO: If error, handle it (show message or something)
   return (
     <Container maxWidth="xs">
       <Box display="flex" flexDirection="column" alignItems="center">
