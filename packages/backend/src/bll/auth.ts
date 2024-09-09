@@ -28,6 +28,7 @@ export const generateJwtForUser = async (user: UserDoc) => {
     userId: user._id.toString(),
     email: user.email,
     firstName: user.firstName,
+    isPremium: !!user.isPremium, // Backwards compatible with isPremium = undefined
   };
 
   const refreshPayload: RefreshPayload = {

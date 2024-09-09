@@ -39,7 +39,11 @@ export const getPotentialMatches = async (
   return usersToSuggest;
 };
 
-export const acceptPotentialMatch = async (user: mongoose.Types.ObjectId, suggestedUser: mongoose.Types.ObjectId) => {
+export const acceptPotentialMatch = async (
+  user: mongoose.Types.ObjectId,
+  suggestedUser: mongoose.Types.ObjectId,
+  isSuperPaw = false,
+) => {
   if (await PotentialMatchModel.exists({ user, suggestedUser, status: PotentialMatchStatus.Accepted })) {
     return;
   }
@@ -50,7 +54,7 @@ export const acceptPotentialMatch = async (user: mongoose.Types.ObjectId, sugges
     { upsert: true },
   );
 
-  await createYouWereLikedNotification(suggestedUser, user);
+  await createYouWereLikedNotification(suggestedUser, user, isSuperPaw);
 
   // Check for mutual match
   const reverseMatch = await PotentialMatchModel.findOne({
@@ -61,6 +65,8 @@ export const acceptPotentialMatch = async (user: mongoose.Types.ObjectId, sugges
 
   if (reverseMatch) {
     await createChat(user, suggestedUser);
+  } else if (isSuperPaw) {
+    await createChat(user, suggestedUser, true);
   }
 };
 

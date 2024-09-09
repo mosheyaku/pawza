@@ -37,6 +37,7 @@ export const auth =
         id: new mongoose.Types.ObjectId(decoded.userId),
         email: decoded.email,
         firstName: decoded.firstName,
+        isPremium: decoded.isPremium,
       };
 
       next();

@@ -22,6 +22,7 @@ export const markNotificationAsRead = async (id: mongoose.Types.ObjectId) =>
 export const createYouWereLikedNotification = async (
   userId: mongoose.Types.ObjectId,
   pawedBy: mongoose.Types.ObjectId,
+  isSuperPaw = false,
 ) => {
   const notificationAlreadyExists = await NotificationModel.exists({
     user: userId,
@@ -37,7 +38,7 @@ export const createYouWereLikedNotification = async (
 
   const notification = new NotificationModel({
     user: userId,
-    type: NotificationType.YouWereLiked,
+    type: isSuperPaw ? NotificationType.YouWereSuperLiked : NotificationType.YouWereLiked,
     pawedBy: {
       _id: pawedBy,
       firstName: pawedByUser!.firstName,

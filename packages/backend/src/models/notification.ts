@@ -2,6 +2,7 @@ import mongoose, { type InferSchemaType } from 'mongoose';
 
 export enum NotificationType {
   YouWereLiked = 'you-were-liked',
+  YouWereSuperLiked = 'you-were-super-liked',
 }
 
 const notificationSchema = new mongoose.Schema(

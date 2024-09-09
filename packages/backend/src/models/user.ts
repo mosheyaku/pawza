@@ -45,6 +45,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: [],
     },
+    isPremium: { type: Boolean, required: true, default: false },
     refreshToken: String,
   },
   { timestamps: true },
