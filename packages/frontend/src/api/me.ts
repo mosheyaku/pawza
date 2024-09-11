@@ -21,6 +21,7 @@ export interface User {
   purpose: UserPurpose;
   profilePictureSrc: string;
   isPremium: boolean;
+  canSuperPaw: boolean;
 }
 
 export const getMe = () => apiClient.get<User>('/auth/me');

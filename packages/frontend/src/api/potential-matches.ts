@@ -11,5 +11,5 @@ export interface PotentialMatchDto {
 export const getPotentialMatch = (userIdsToIgnore: string[]) =>
   apiClient.get<PotentialMatchDto[]>('/potential-matches', { params: { userIdsToIgnore } }).then((res) => res.data);
 
-export const decidePotentialMatch = (params: { suggestedUserId: string; decision: 'accept' | 'decline' }) =>
+export const decidePotentialMatch = (params: { suggestedUserId: string; decision: 'accept' | 'decline' | 'super' }) =>
   apiClient.post(`/potential-matches/${params.suggestedUserId}/${params.decision}`);

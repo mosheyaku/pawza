@@ -29,6 +29,7 @@ function NotificationsPage() {
           read={notification.read}
           image={notification.image}
           pawedBy={notification.pawedBy}
+          isSuperPaw={notification.isSuperPaw}
         />
       ))}
 

@@ -46,6 +46,7 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
     isPremium: { type: Boolean, required: true, default: false },
+    lastSuperPaw: Date,
     refreshToken: String,
   },
   { timestamps: true },

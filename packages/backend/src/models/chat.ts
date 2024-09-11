@@ -12,7 +12,8 @@ const chatSchema = new mongoose.Schema({
   latestMessage: {
     type: String,
   },
-  isSuperLikeChat: { type: Boolean, required: true, default: false },
+  superLikedBy: mongoose.Schema.Types.ObjectId,
+  isOneSided: Boolean,
 });
 
 export type ChatDoc = InferSchemaType<typeof chatSchema> & { _id: mongoose.Types.ObjectId };

@@ -24,7 +24,9 @@ function ChatPage({ chatId }: { chatId: string }) {
   const {
     data: chat,
     isLoading: isLoadingChat,
+    isFetching: isFetchingChat,
     error: chatError,
+    refetch: refetchChatInfo,
   } = useQuery<ChatInfo>({
     queryKey: ['chats', chatId],
     queryFn: () => fetchChat(chatId),
@@ -54,7 +56,7 @@ function ChatPage({ chatId }: { chatId: string }) {
   }, [messages]);
 
   // Mutation for sending a message
-  const { mutateAsync: sendMessageMutation } = useMutation({
+  const { mutateAsync: sendMessageMutation, isPending: isSendingMessage } = useMutation({
     mutationFn: (content: string) => sendMessage(chatId, content),
   });
 
@@ -72,6 +74,10 @@ function ChatPage({ chatId }: { chatId: string }) {
       ]);
 
       await sendMessageMutation(newMessage);
+
+      if (chat && !chat.latestMessage) {
+        refetchChatInfo();
+      }
     }
   };
 
@@ -164,7 +170,7 @@ function ChatPage({ chatId }: { chatId: string }) {
           InputProps={{
             style: { borderRadius: '1rem' },
             endAdornment: (
-              <IconButton type="submit">
+              <IconButton type="submit" disabled={!chat || !chat.canSendMessage || isSendingMessage || isFetchingChat}>
                 <SendIcon />
               </IconButton>
             ),
@@ -173,6 +179,7 @@ function ChatPage({ chatId }: { chatId: string }) {
           placeholder="Type a message..."
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
+          disabled={!chat || !chat.canSendMessage || isSendingMessage || isFetchingChat}
         />
       </Box>
     </Box>

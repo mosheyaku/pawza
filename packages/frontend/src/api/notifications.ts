@@ -11,6 +11,7 @@ export interface Notification {
   read: boolean;
   image?: string;
   pawedBy?: string;
+  isSuperPaw: boolean;
 }
 
 export const getUnreadNotificationsCount = () => apiClient.get<number>('/notifications/unread-count');

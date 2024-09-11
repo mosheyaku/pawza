@@ -14,6 +14,7 @@ export interface ChatDto {
     profilePic?: string;
   };
   latestMessage: string;
+  canSendMessage: boolean;
 }
 
 export const toChatDto = (chat: PopulatedChatDoc, userId: mongoose.Types.ObjectId): ChatDto => {
@@ -32,5 +33,6 @@ export const toChatDto = (chat: PopulatedChatDoc, userId: mongoose.Types.ObjectI
       profilePic: matchedUser.photos[0],
     },
     latestMessage: chat.latestMessage || '',
+    canSendMessage: !(chat.isOneSided && chat.superLikedBy?.equals(userId) && chat.latestMessage),
   };
 };

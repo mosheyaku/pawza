@@ -1,5 +1,6 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { decidePotentialMatch, getPotentialMatch } from '../../api/potential-matches';
@@ -19,10 +20,13 @@ interface SuggestedUser {
 }
 
 function Home() {
+  const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState<SuggestedUser[]>([]);
   const [isSwiping, setIsSwiping] = useState(false);
   const topCard = useRef<any>(null);
   const [resetCard, setResetCard] = useState(1);
+  const [openSuperLikedDialog, setOpenSuperLikedDialog] = useState(false);
+  const [superLikeChatId, setSuperLikeChatId] = useState('');
   const unaddressedSuggestionsCount = useMemo(() => suggestions.filter((x) => !x.addressed).length, [suggestions]);
 
   const { user } = useAuth();
@@ -39,6 +43,7 @@ function Home() {
 
   const { mutateAsync: callDecidePotentialMatch } = useMutation({
     mutationFn: (data: Parameters<typeof decidePotentialMatch>[0]) => decidePotentialMatch(data),
+    onSuccess: (res) => setSuperLikeChatId(res.data.chatId),
   });
 
   useEffect(() => {
@@ -54,13 +59,24 @@ function Home() {
 
   const swipe = async (dir: 'left' | 'right', isSuper = false) => {
     if (topCard.current) {
-      const decision = dir === 'right' ? 'accept' : 'decline';
+      let decision: 'accept' | 'decline' | 'super';
+      if (dir === 'left') {
+        decision = 'decline';
+      } else if (isSuper) {
+        decision = 'super';
+      } else {
+        decision = 'accept';
+      }
       suggested.addressed = true;
       callDecidePotentialMatch({ suggestedUserId: suggested.id, decision });
 
       setIsSwiping(true);
       await topCard.current.swipe(dir, 1.6); // Swipe the card!
       setIsSwiping(false);
+
+      if (isSuper) {
+        setOpenSuperLikedDialog(true);
+      }
     }
   };
 
@@ -85,7 +101,10 @@ function Home() {
 
     setSuggestions((p) => p.filter((_, index) => index !== 0));
     setResetCard((p) => p + 1);
-    callDecidePotentialMatch({ suggestedUserId: suggested.id, decision });
+
+    if (!suggested.addressed) {
+      callDecidePotentialMatch({ suggestedUserId: suggested.id, decision });
+    }
   };
 
   if (isLoading) {
@@ -151,7 +170,7 @@ function Home() {
               onClick={() => swipe('left')}
               sx={{ transform: 'rotate(180deg)' }}
             />
-            {user?.isPremium && (
+            {user?.canSuperPaw && (
               <PawButton
                 color="blue"
                 disabled={isSwiping}
@@ -168,6 +187,23 @@ function Home() {
           <br /> try again tomorrow! 🐶
         </Typography>
       )}
+
+      <Dialog open={!!openSuperLikedDialog} onClose={() => setOpenSuperLikedDialog(false)}>
+        <DialogTitle>You&apos;ve sent a super paw!</DialogTitle>
+        <DialogContent>Send your first message now!</DialogContent>
+        <DialogActions>
+          <Button variant="contained" onClick={() => setOpenSuperLikedDialog(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => navigate({ to: superLikeChatId ? `/chats/${superLikeChatId}` : '/chats' })}
+            color="primary"
+          >
+            Go to chat
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

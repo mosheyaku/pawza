@@ -13,9 +13,10 @@ export interface NotificationProps {
   read: boolean;
   image?: string;
   pawedBy?: string;
+  isSuperPaw: boolean;
 }
 
-function Notification({ id, content, read, title, image, pawedBy }: NotificationProps) {
+function Notification({ id, content, read, title, image, pawedBy, isSuperPaw }: NotificationProps) {
   const [isNew, setIsNew] = useState(!read);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -37,12 +38,17 @@ function Notification({ id, content, read, title, image, pawedBy }: Notification
     }
   };
 
+  let bgcolor = 'rgba(255, 255, 255, 0.5)';
+  if (isNew) {
+    bgcolor = isSuperPaw ? 'rgba(219, 255, 255, 1)' : 'white';
+  }
+
   return (
     <Button
       onClick={onClick}
       fullWidth
       sx={{
-        bgcolor: isNew ? 'white' : 'rgba(255, 255, 255, 0.5)',
+        bgcolor,
         padding: '1rem',
         border: '1px solid #f0f0f0',
         textTransform: 'none',

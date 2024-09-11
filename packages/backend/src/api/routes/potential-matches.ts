@@ -36,15 +36,19 @@ potentialMatcherRouter.post('/:suggestedUserId/decline', async (req, res) => {
   res.status(200).send();
 });
 
-potentialMatcherRouter.post('/:suggestedUserId/super-paw', async (req, res) => {
+potentialMatcherRouter.post('/:suggestedUserId/super', async (req, res) => {
   if (!req.user.isPremium) {
     throw new AppForbiddenError();
   }
 
   const suggestedUserId = new mongoose.Types.ObjectId(req.params.suggestedUserId);
-  await acceptPotentialMatch(req.user.id, suggestedUserId, true);
+  const chat = await acceptPotentialMatch(req.user.id, suggestedUserId, true);
 
-  res.status(200).send();
+  if (!chat) {
+    throw new Error('Could not create chat for super like');
+  }
+
+  res.json({ chatId: chat._id.toString() });
 });
 
 export { potentialMatcherRouter };

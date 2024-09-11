@@ -54,6 +54,10 @@ export const acceptPotentialMatch = async (
     { upsert: true },
   );
 
+  if (isSuperPaw) {
+    await UserModel.updateOne({ _id: user }, { $set: { lastSuperPaw: new Date() } });
+  }
+
   await createYouWereLikedNotification(suggestedUser, user, isSuperPaw);
 
   // Check for mutual match
@@ -64,9 +68,11 @@ export const acceptPotentialMatch = async (
   });
 
   if (reverseMatch) {
-    await createChat(user, suggestedUser);
-  } else if (isSuperPaw) {
-    await createChat(user, suggestedUser, true);
+    return await createChat(user, suggestedUser);
+  }
+
+  if (isSuperPaw) {
+    return await createChat(user, suggestedUser, user);
   }
 };
 

@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { type Gender, type UserDoc, type UserPurpose } from '../../models/user.js';
 
 export interface UserDto {
@@ -10,6 +12,7 @@ export interface UserDto {
   purpose: UserPurpose;
   profilePictureSrc: string;
   isPremium: boolean;
+  canSuperPaw: boolean;
 }
 
 export const toUserDto = (user: UserDoc): UserDto => ({
@@ -22,4 +25,5 @@ export const toUserDto = (user: UserDoc): UserDto => ({
   purpose: user.purpose,
   profilePictureSrc: user.photos[0],
   isPremium: !!user.isPremium,
+  canSuperPaw: user.isPremium && (!user.lastSuperPaw || !dayjs(user.lastSuperPaw).isSame(dayjs(), 'day')),
 });

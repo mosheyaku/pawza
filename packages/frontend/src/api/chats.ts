@@ -20,6 +20,7 @@ export interface ChatInfo {
     profilePic?: string;
   };
   latestMessage: string;
+  canSendMessage: boolean;
 }
 
 // Fetch chats
