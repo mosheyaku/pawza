@@ -20,6 +20,7 @@ export interface User {
   gender: Gender;
   purpose: UserPurpose;
   profilePictureSrc: string;
+  isPremium: boolean;
 }
 
 export const getMe = () => apiClient.get<User>('/auth/me');

@@ -17,7 +17,7 @@ function PawButton({
   color,
   sx,
   ...props
-}: Omit<ComponentPropsWithRef<typeof IconButton>, 'color'> & { color?: 'green' | 'red' }) {
+}: Omit<ComponentPropsWithRef<typeof IconButton>, 'color'> & { color?: 'green' | 'red' | 'blue' }) {
   const [animate, setAnimate] = useState(false);
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -30,6 +30,8 @@ function PawButton({
   let fill = '#00BB55';
   if (color === 'red') {
     fill = '#CE0000';
+  } else if (color === 'blue') {
+    fill = '#1560BD';
   }
 
   return (

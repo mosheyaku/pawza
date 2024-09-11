@@ -9,6 +9,7 @@ export interface UserDto {
   gender: Gender;
   purpose: UserPurpose;
   profilePictureSrc: string;
+  isPremium: boolean;
 }
 
 export const toUserDto = (user: UserDoc): UserDto => ({
@@ -20,4 +21,5 @@ export const toUserDto = (user: UserDoc): UserDto => ({
   gender: user.gender,
   purpose: user.purpose,
   profilePictureSrc: user.photos[0],
+  isPremium: !!user.isPremium,
 });

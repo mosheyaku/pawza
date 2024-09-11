@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { decidePotentialMatch, getPotentialMatch } from '../../api/potential-matches';
+import { useAuth } from '../Auth/useAuth';
 import FullScreenLoader from '../Loader/FullScreenLoader';
 import TinderCard from '../TinderCard';
 import ImageCard from './ImageCard';
@@ -23,6 +24,8 @@ function Home() {
   const topCard = useRef<any>(null);
   const [resetCard, setResetCard] = useState(1);
   const unaddressedSuggestionsCount = useMemo(() => suggestions.filter((x) => !x.addressed).length, [suggestions]);
+
+  const { user } = useAuth();
 
   const {
     data: potentialMatches,
@@ -49,7 +52,7 @@ function Home() {
     ]);
   }, [potentialMatches]);
 
-  const swipe = async (dir: 'left' | 'right') => {
+  const swipe = async (dir: 'left' | 'right', isSuper = false) => {
     if (topCard.current) {
       const decision = dir === 'right' ? 'accept' : 'decline';
       suggested.addressed = true;
@@ -148,6 +151,14 @@ function Home() {
               onClick={() => swipe('left')}
               sx={{ transform: 'rotate(180deg)' }}
             />
+            {user?.isPremium && (
+              <PawButton
+                color="blue"
+                disabled={isSwiping}
+                onClick={() => swipe('right', true)}
+                sx={{ transform: 'scale(125%)' }}
+              />
+            )}
             <PawButton color="green" disabled={isSwiping} onClick={() => swipe('right')} />
           </Box>
         </>
