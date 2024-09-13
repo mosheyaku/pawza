@@ -8,9 +8,10 @@ export interface ProfileDto {
   gender: Gender;
   purpose: UserPurpose;
   profilePictureSrc: string;
+  didYouLikeThem: boolean;
 }
 
-export const toProfileDto = (user: UserDoc): ProfileDto => ({
+export const toProfileDto = (user: UserDoc, didYouLikeThem: boolean): ProfileDto => ({
   id: user._id.toString(),
   firstName: user.firstName,
   lastName: user.lastName,
@@ -18,4 +19,5 @@ export const toProfileDto = (user: UserDoc): ProfileDto => ({
   gender: user.gender,
   purpose: user.purpose,
   profilePictureSrc: user.photos[0],
+  didYouLikeThem,
 });

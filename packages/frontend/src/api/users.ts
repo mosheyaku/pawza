@@ -1,12 +1,16 @@
 import { apiClient } from './base';
+import { type Gender, type UserPurpose } from './me';
 
-export interface Notification {
+export interface UserProfile {
   id: string;
-  title: string;
-  content: string;
-  read: boolean;
-  image?: string;
-  pawedBy?: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  gender: Gender;
+  purpose: UserPurpose;
+  profilePictureSrc: string;
+  didYouLikeThem: boolean;
 }
 
-export const getUserProfile = (userId: string) => apiClient.get(`/users/${userId}/profile`);
+export const getUserProfile = (userId: string) =>
+  apiClient.get<UserProfile>(`/users/${userId}/profile`).then((res) => res.data);

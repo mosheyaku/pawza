@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { isValidObjectId } from 'mongoose';
 
 import { AppBadRequestError } from '../../errors/app-bad-request.js';
+import { PotentialMatchModel, PotentialMatchStatus } from '../../models/potential-match.js';
 import { UserModel } from '../../models/user.js';
 import { toProfileDto } from '../dtos/profile.js';
 import { toUserDto } from '../dtos/user.js';
@@ -19,7 +20,13 @@ usersRouter.get('/:id/profile', async (req, res) => {
   }
 
   const user = await UserModel.findById(req.params.id).orFail();
-  res.json(toProfileDto(user));
+  const didYouLikeThem = !!(await PotentialMatchModel.exists({
+    user: req.user.id,
+    suggestedUser: user._id,
+    status: PotentialMatchStatus.Accepted,
+  }));
+
+  res.json(toProfileDto(user, didYouLikeThem));
 });
 
 export { usersRouter };

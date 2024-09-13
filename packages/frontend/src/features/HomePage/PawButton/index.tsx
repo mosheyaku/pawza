@@ -41,7 +41,7 @@ function PawButton({
       disabled={animate || props.disabled}
       onClick={handleClick}
     >
-      <PawSvg fill={fill} width="100%" height="100%" />
+      <PawSvg fill={props.disabled ? 'gray' : fill} width="100%" height="100%" />
 
       {animate && (
         <IconButton
@@ -54,7 +54,7 @@ function PawButton({
           }}
           {...props}
         >
-          <PawSvg fill={fill} width="100%" height="100%" />
+          <PawSvg fill={props.disabled ? 'gray' : fill} width="100%" height="100%" />
         </IconButton>
       )}
     </IconButton>
