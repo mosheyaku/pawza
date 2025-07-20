@@ -5,7 +5,7 @@ FROM node:20-alpine3.18 as builder
 RUN apk add --no-cache curl
 
 # Install pnpm manually (מעדכן את pnpm לגרסה האחרונה)
-RUN curl -fsSL https://get.pnpm.io/install.sh | sh -
+RUN SHELL=/bin/sh curl -fsSL https://get.pnpm.io/install.sh | sh -
 
 # Add pnpm ל-PATH
 ENV PATH="/root/.local/share/pnpm:$PATH"
