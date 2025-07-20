@@ -1,6 +1,8 @@
 FROM node:20-alpine3.18 as builder
 
-RUN corepack enable
+RUN apk add --no-cache curl bash
+
+RUN curl -fsSL https://get.pnpm.io/install.sh | bash -
 
 ENV PATH="/root/.local/share/pnpm:$PATH"
 
