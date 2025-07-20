@@ -1,10 +1,14 @@
 ## Builder ##
 FROM node:20-alpine3.18 as builder
 
-# Install pnpm
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+# Install curl to download pnpm
+RUN apk add --no-cache curl
+
+# Install pnpm manually (מעדכן את pnpm לגרסה האחרונה)
+RUN curl -fsSL https://get.pnpm.io/install.sh | sh -
+
+# Add pnpm ל-PATH
+ENV PATH="/root/.local/share/pnpm:$PATH"
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -20,9 +24,8 @@ RUN pnpm install
 # Copy the rest of the application code
 COPY packages/backend ./packages/backend
 
-# Run the build script from package.json for pawza backend
+# Build and deploy backend
 RUN pnpm --filter="@pawza/backend" build
-# Create a min size bundle of dependencies to run the app
 RUN pnpm --filter="@pawza/backend" deploy --prod out
 
 ## Runner ##
