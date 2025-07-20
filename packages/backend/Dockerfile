@@ -1,14 +1,11 @@
 FROM node:20-alpine3.18 as builder
 
-RUN apk add --no-cache curl
-
-ENV SHELL=/bin/sh
-
-RUN curl -fsSL https://get.pnpm.io/install.sh | sh -
+RUN corepack enable
 
 ENV PATH="/root/.local/share/pnpm:$PATH"
 
 WORKDIR /usr/src/app
+
 COPY package.json pnpm-*.yaml tsconfig.base.json ./
 COPY packages/backend/package.json ./packages/backend/package.json
 COPY packages/devtools ./packages/devtools
@@ -28,4 +25,5 @@ COPY --from=builder /usr/src/app/out/node_modules ./node_modules
 COPY --from=builder /usr/src/app/out/package.json ./package.json
 
 EXPOSE 80
+
 ENTRYPOINT ["node", "./dist/index.js"]
