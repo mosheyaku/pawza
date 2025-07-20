@@ -1,12 +1,13 @@
-FROM node:20-alpine3.18 as builder
+FROM node:20 AS builder
 
-RUN apk add --no-cache curl bash
+WORKDIR /usr/src/app
+
+# Install curl (usually included, but just in case)
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://get.pnpm.io/install.sh | bash -
 
 ENV PATH="/root/.local/share/pnpm:$PATH"
-
-WORKDIR /usr/src/app
 
 COPY package.json pnpm-*.yaml tsconfig.base.json ./
 COPY packages/backend/package.json ./packages/backend/package.json
@@ -19,7 +20,8 @@ COPY packages/backend ./packages/backend
 RUN pnpm --filter="@pawza/backend" build
 RUN pnpm --filter="@pawza/backend" deploy --prod out
 
-FROM node:20-alpine3.18 as runner
+FROM node:20 AS runner
+
 WORKDIR /usr/src/app
 
 COPY --from=builder /usr/src/app/out/dist ./dist
