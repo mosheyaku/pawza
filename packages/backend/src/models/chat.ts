@@ -23,3 +23,4 @@ export type PopulatedChatDoc = Omit<ChatDoc, 'users'> & {
 };
 
 export const ChatModel = mongoose.model('Chat', chatSchema);
+    

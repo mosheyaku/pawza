@@ -28,7 +28,7 @@ function UserPage({ userId }: UserPageProps) {
 
   const { mutateAsync: callDecidePotentialMatch } = useMutation({
     mutationFn: (data: Parameters<typeof decidePotentialMatch>[0]) => decidePotentialMatch(data),
-    onSuccess: (res) => setShowLikedDialog(true),
+    onSuccess: (_res) => setShowLikedDialog(true),
   });
 
   const [canPaw, setCanPaw] = useState(false);
