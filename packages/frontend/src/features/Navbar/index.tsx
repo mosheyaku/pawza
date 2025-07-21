@@ -21,7 +21,11 @@ const Navbar = () => {
       <Toolbar sx={{ height: '4rem', display: 'flex', justifyContent: 'space-between' }}>
         {/* Image and Text on the Left */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src={PawzaLogo} alt="logo" style={{ height: '64px', padding: '0.5rem', boxSizing: 'border-box' }} />
+          <img
+            src={PawzaLogo}
+            alt="logo"
+            style={{ height: '80px', padding: '0.25rem', boxSizing: 'border-box' }}
+          />
           <Typography
             variant="h5"
             component="div"
